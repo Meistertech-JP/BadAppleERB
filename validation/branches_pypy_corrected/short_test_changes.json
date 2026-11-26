@@ -1,0 +1,33 @@
+{
+  "scope": "Isolated 120-frame real-loop test; not a full 6573-frame movie run",
+  "source_runtime": "runtime",
+  "test_runtime": "test_runtime_short_corrected",
+  "menu_functions_byte_identical": true,
+  "unchanged_functions": {
+    "SYSTEM_TITLE": true,
+    "BA_INIT": true,
+    "BA_LOAD": true,
+    "BA_RESET": true,
+    "BA_EVENTS": true,
+    "BA_RENDER": true,
+    "BA_PRESENT": true,
+    "BA_PLAY": true,
+    "BA_BENCH": true,
+    "BA_VERIFY": true,
+    "BA_REALTIME_AUDIT": true,
+    "BA_REALTIME_AUDIT_SHORT": true,
+    "BA_RUN_REALTIME": true,
+    "BA_VERIFY_JUMPS": true,
+    "BA_VERIFY_JUMP_SMOKE": true,
+    "BA_TRACE_ONE": true,
+    "BA_MENU": true,
+    "BA_MENU_DRAW": true,
+    "BA_MENU_ART": true
+  },
+  "changes": [
+    "BA_REALTIME passes 120 to the unchanged BA_RUN_REALTIME and emits audit after playback",
+    "BA_RUN iterates 0..119, waits for 120/30 seconds, reports 120; its actual sequential render/present body is unchanged"
+  ],
+  "full_data_frame_constant_unchanged": true,
+  "diff": "--- production PLAYER.ERB\n+++ isolated short-test PLAYER.ERB\n@@ -332,7 +332,7 @@\n SETCOLOR 255, 255, 255\n SETBGCOLOR 0, 0, 0\n BA_STARTMS = GETMILLISECOND()\n-FOR LF, 0, BA_FRAMES\n+FOR LF, 0, 120\n     LTIME = GETMILLISECOND()\n     CALL BA_RENDER, LF\n     BA_CALCMS += GETMILLISECOND() - LTIME\n@@ -354,7 +354,7 @@\n     ENDIF\n NEXT\n IF LPACED\n-    LW = BA_STARTMS + BA_FRAMES * 1000 / BA_FPS - GETMILLISECOND()\n+    LW = BA_STARTMS + 120 * 1000 / BA_FPS - GETMILLISECOND()\n     SIF LW > 0\n         AWAIT LW\n ENDIF\n@@ -362,7 +362,7 @@\n CLEARLINE BA_SHOWN\n BA_SHOWN = 0\n REDRAW 3\n-PRINTFORML Completed {BA_FRAMES} / {BA_FRAMES} frames. Elapsed: {BA_ELAPSEDMS} ms.\n+PRINTFORML Completed {120} / {120} frames. Elapsed: {BA_ELAPSEDMS} ms.\n PRINTFORML Calculation and row construction: {BA_CALCMS} ms; presentation: {BA_PRESENTMS} ms.\n SIF LPACED\n     PRINTFORML Maximum lateness: {BA_MAXLATE} ms; late by over one frame: {BA_LATEFRAMES}.\n@@ -396,8 +396,8 @@\n ; and the curve chains of spans alive at the selected target.\n ; GETMILLISECOND is the engine's wall-clock query, not a monotonic clock.\n @BA_REALTIME\n-BA_RT_AUDIT = 0\n-CALL BA_RUN_REALTIME, BA_FRAMES\n+BA_RT_AUDIT = 1\n+CALL BA_RUN_REALTIME, 120\n RETURN RESULT\n \n ; Identical movie loop; only the post-movie diagnostic emission differs.\n"
+}

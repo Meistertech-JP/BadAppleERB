@@ -1,0 +1,554 @@
+﻿; Bad Apple!!: trajectory-driven scanline renderer for unchanged Emuera/PyEmuera.
+; No finished frame strings or raster frame table are loaded by this program.
+; Persistent nonblack spans carry independently fitted left/right/gray curves.
+; See GEOMETRY.ERH and the compiler report for the measured keyframe density.
+
+@SYSTEM_TITLE
+CALL BA_REALTIME
+QUIT
+
+@BA_INIT
+#DIM LI
+#DIM LJ
+#DIMS LH
+#DIMS LX
+CALL BA_LOAD
+SIF RESULT != 0
+    RETURN -1
+BA_BLANK '= "                                                                               "
+BA_INK '= "###############################################################################"
+FOR LI, 0, BA_WIDTH + 1
+    BA_BLANKRUN:LI '= SUBSTRING(BA_BLANK, 0, LI)
+    BA_INKRUN:LI '= SUBSTRING(BA_INK, 0, LI)
+NEXT
+LH '= "0123456789ABCDEF"
+FOR LI, 0, 256
+    LX '= SUBSTRING(LH, LI / 16, 1) + SUBSTRING(LH, LI % 16, 1)
+    BA_FONT:LI '= "<font color='#" + LX + LX + LX + "'>"
+    IF BA_CAPTURE
+        BA_HEXRUN:LI '= LX
+        ; Doubling builds 128 copies; a trace span uses at most 79 of them.
+        FOR LJ, 0, 7
+            BA_HEXRUN:LI += BA_HEXRUN:LI
+        NEXT
+    ENDIF
+NEXT
+CALL BA_RESET
+BA_SHOWN = 0
+BA_MAXLATE = 0
+BA_LATEFRAMES = 0
+BA_CALCMS = 0
+BA_PRESENTMS = 0
+RETURN 0
+
+; The payload stores UTF-8 numerical code units, never display characters.
+; All digits are U+0100..U+80FF, so ENCODETOUNI/STRLENSU count one BMP unit.
+; Use explicit LF separators: Unicode line separators can be valid digits.
+@BA_LOAD
+#DIMS LD
+SIF BA_LOADED
+    RETURN 0
+LD '= LOADTEXT(0, 0, 1)
+SPLIT LD, UNICODE(10), BA_LEFT_DATA
+IF RESULT != BA_TRACKS
+    PRINTL Invalid or missing left-trajectory data: txt00.txt
+    RETURN -1
+ENDIF
+LD '= LOADTEXT(1, 0, 1)
+SPLIT LD, UNICODE(10), BA_RIGHT_DATA
+IF RESULT != BA_TRACKS
+    PRINTL Invalid or missing right-trajectory data: txt01.txt
+    RETURN -1
+ENDIF
+LD '= LOADTEXT(2, 0, 1)
+SPLIT LD, UNICODE(10), BA_GRAY_DATA
+IF RESULT != BA_TRACKS
+    PRINTL Invalid or missing grayscale trajectory data: txt02.txt
+    RETURN -1
+ENDIF
+LD '= LOADTEXT(3, 0, 1)
+SPLIT LD, UNICODE(10), BA_META_DATA
+IF RESULT != BA_TRACKS
+    PRINTL Invalid or missing topology data: txt03.txt
+    RETURN -1
+ENDIF
+LD '= LOADTEXT(4, 0, 1)
+SPLIT LD, UNICODE(10), BA_DEATH_DATA
+IF RESULT != BA_FRAMES + 1
+    PRINTL Invalid or missing topology events: txt04.txt
+    RETURN -1
+ENDIF
+LD '= ""
+BA_LOADED = 1
+RETURN 0
+
+; Reset traversal only. Every reachable slot is reinitialized on its birth.
+; Dead tracks release their sparse state during normal playback.
+@BA_RESET
+#DIM LI
+FOR LI, 0, BA_HEIGHT
+    BA_HEAD:LI = -1
+NEXT
+BA_BIRTH_POS = 0
+BA_EVENT_FRAME = -1
+BA_FRAME = -1
+RETURN 0
+
+; Deaths are processed before births. Every new span identifies its surviving
+; or newly born left neighbor. Track IDs are assigned in birth order.
+@BA_EVENTS(ARG)
+#DIM LT
+#DIM LP
+#DIM LN
+#DIM LY
+#DIM LI
+#DIM LK
+#DIM LD
+#DIM LJ
+#DIMS LS
+LS '= BA_DEATH_DATA:ARG
+LD = STRLENSU(LS)
+FOR LI, 0, LD, 2
+    LT = ENCODETOUNI(LS, LI) - 256 + 32768 * (ENCODETOUNI(LS, LI + 1) - 256)
+    LY = BA_NODE_ROW:LT
+    LP = BA_PREV:LT
+    LN = BA_NEXT:LT
+    IF LP < 0
+        BA_HEAD:LY = LN
+    ELSE
+        BA_NEXT:LP = LN
+    ENDIF
+    SIF LN >= 0
+        BA_PREV:LN = LP
+    ; Zero releases sparse interpreter state for the dead track.
+    BA_NEXT:LT = 0
+    BA_PREV:LT = 0
+    BA_NODE_ROW:LT = 0
+    LK = LT * 3
+    FOR LJ, LK, LK + 3
+        BA_P_POS:LJ = 0
+        BA_P_START:LJ = 0
+        BA_P_LAST:LJ = 0
+        BA_P_COEF:LJ = 0
+    NEXT
+NEXT
+WHILE BA_BIRTH_POS < BA_TRACKS
+    LT = BA_BIRTH_POS
+    LS '= BA_META_DATA:LT
+    SIF ENCODETOUNI(LS, 0) - 256 > ARG
+        BREAK
+    LY = ENCODETOUNI(LS, 1) - 256
+    LP = ENCODETOUNI(LS, 2) - 257 + 32768 * (ENCODETOUNI(LS, 3) - 256)
+    IF LP < 0
+        LN = BA_HEAD:LY
+        BA_HEAD:LY = LT
+    ELSE
+        LN = BA_NEXT:LP
+        BA_NEXT:LP = LT
+    ENDIF
+    BA_NODE_ROW:LT = LY
+    BA_PREV:LT = LP
+    BA_NEXT:LT = LN
+    SIF LN >= 0
+        BA_PREV:LN = LT
+    LK = LT * 3
+    FOR LI, LK, LK + 3
+        BA_P_POS:LI = -3
+        BA_P_LAST:LI = ARG - 1
+    NEXT
+    BA_BIRTH_POS += 1
+WEND
+BA_EVENT_FRAME = ARG
+RETURN 0
+
+; Render a valid frame into BA_ROW. Forward seeks advance topology events
+; without constructing skipped intermediate images. Both playback modes use it.
+; Each persistent span has independent left, right and grayscale curve chains.
+; Exact half-up rounding of base + numerator*dt/denominator is performed with
+; a nonnegative integer expression, preserving ERB truncation semantics.
+@BA_RENDER(ARG)
+#DIM LF
+#DIM LY
+#DIM LT
+#DIM LK
+#DIM LP
+#DIM LL
+#DIM LR
+#DIM LV
+#DIM LN
+#DIM LD
+#DIM LCUR
+#DIM LI
+#DIM LEND
+#DIM LSTART
+#DIMS LDATA
+#DIMS LROW
+#DIMS LTRACE
+SIF ARG < 0 || ARG >= BA_FRAMES
+    RETURN -1
+SIF ARG < BA_EVENT_FRAME
+    CALL BA_RESET
+FOR LF, BA_EVENT_FRAME + 1, ARG + 1
+    CALL BA_EVENTS, LF
+NEXT
+FOR LY, 0, BA_HEIGHT
+    LT = BA_HEAD:LY
+    LP = 0
+    LCUR = -1
+    LROW '= ""
+    LTRACE '= ""
+    WHILE LT >= 0
+        LI = LT * 3 + 0
+        IF ARG > BA_P_LAST:LI
+            LDATA '= BA_LEFT_DATA:LT
+            LK = BA_P_POS:LI
+            LEND = BA_P_LAST:LI
+            WHILE ARG > LEND
+                LK += 3
+                LSTART = LEND + 1
+                LEND += ENCODETOUNI(LDATA, LK) - 256
+            WEND
+            BA_P_POS:LI = LK
+            BA_P_START:LI = LSTART
+            BA_P_LAST:LI = LEND
+            BA_P_COEF:LI = ENCODETOUNI(LDATA, LK + 1) - 256 + 32768 * (ENCODETOUNI(LDATA, LK + 2) - 256)
+        ENDIF
+        LK = BA_P_COEF:LI
+        LL = BA_D_BASE:LK
+        LN = BA_D_NUM:LK
+        IF LN
+            LD = BA_D_DEN:LK
+            LL = ((2 * LL + 1) * LD + 2 * LN * (ARG - BA_P_START:LI)) / (2 * LD)
+        ENDIF
+        LI = LT * 3 + 1
+        IF ARG > BA_P_LAST:LI
+            LDATA '= BA_RIGHT_DATA:LT
+            LK = BA_P_POS:LI
+            LEND = BA_P_LAST:LI
+            WHILE ARG > LEND
+                LK += 3
+                LSTART = LEND + 1
+                LEND += ENCODETOUNI(LDATA, LK) - 256
+            WEND
+            BA_P_POS:LI = LK
+            BA_P_START:LI = LSTART
+            BA_P_LAST:LI = LEND
+            BA_P_COEF:LI = ENCODETOUNI(LDATA, LK + 1) - 256 + 32768 * (ENCODETOUNI(LDATA, LK + 2) - 256)
+        ENDIF
+        LK = BA_P_COEF:LI
+        LR = BA_D_BASE:LK
+        LN = BA_D_NUM:LK
+        IF LN
+            LD = BA_D_DEN:LK
+            LR = ((2 * LR + 1) * LD + 2 * LN * (ARG - BA_P_START:LI)) / (2 * LD)
+        ENDIF
+        LI = LT * 3 + 2
+        IF ARG > BA_P_LAST:LI
+            LDATA '= BA_GRAY_DATA:LT
+            LK = BA_P_POS:LI
+            LEND = BA_P_LAST:LI
+            WHILE ARG > LEND
+                LK += 3
+                LSTART = LEND + 1
+                LEND += ENCODETOUNI(LDATA, LK) - 256
+            WEND
+            BA_P_POS:LI = LK
+            BA_P_START:LI = LSTART
+            BA_P_LAST:LI = LEND
+            BA_P_COEF:LI = ENCODETOUNI(LDATA, LK + 1) - 256 + 32768 * (ENCODETOUNI(LDATA, LK + 2) - 256)
+        ENDIF
+        LK = BA_P_COEF:LI
+        LV = BA_D_BASE:LK
+        LN = BA_D_NUM:LK
+        IF LN
+            LD = BA_D_DEN:LK
+            LV = ((2 * LV + 1) * LD + 2 * LN * (ARG - BA_P_START:LI)) / (2 * LD)
+        ENDIF
+        LROW += BA_BLANKRUN:(LL - LP)
+        IF LCUR != LV
+            SIF LCUR >= 0
+                LROW += "</font>"
+            LROW += BA_FONT:LV
+            LCUR = LV
+        ENDIF
+        LROW += BA_INKRUN:(LR - LL)
+        IF BA_CAPTURE
+            LTRACE += SUBSTRING(BA_HEXRUN:0, 0, 2 * (LL - LP))
+            LTRACE += SUBSTRING(BA_HEXRUN:LV, 0, 2 * (LR - LL))
+        ENDIF
+        LP = LR
+        LT = BA_NEXT:LT
+    WEND
+    LROW += BA_BLANKRUN:(BA_WIDTH - LP)
+    SIF LCUR >= 0
+        LROW += "</font>"
+    BA_ROW:LY '= LROW
+    SIF BA_CAPTURE
+        BA_TRACE:LY '= LTRACE + SUBSTRING(BA_HEXRUN:0, 0, 2 * (BA_WIDTH - LP))
+NEXT
+BA_FRAME = ARG
+RETURN 0
+
+; Present one HTML_PRINT per logical row,
+; erase the preceding 24 rows, and force one completed frame with AWAIT 0.
+; The host terminal must be at least 80 columns by 25 rows. Send stderr to
+; a separate log so diagnostic text does not reserve picture rows.
+@BA_PRESENT
+#DIM LY
+CLEARLINE BA_SHOWN
+FOR LY, 0, BA_HEIGHT
+    HTML_PRINT BA_ROW:LY
+NEXT
+BA_SHOWN = BA_HEIGHT
+AWAIT 0
+RETURN 0
+
+@BA_PLAY
+CALL BA_RUN, 0
+RETURN 0
+
+; Unpaced output benchmark; still calculates and presents every source frame.
+@BA_BENCH
+CALL BA_RUN, 1
+RETURN 0
+
+; ARG=0: source-rate playback, ARG=1: unpaced calculation+presentation.
+; No frame is discarded when rendering is late. BA_MAXLATE makes slowdown
+; observable instead of treating all generated frames as timely presentation.
+@BA_RUN(ARG)
+#DIM LF
+#DIM LW
+#DIM LLATE
+#DIM LPACED
+#DIM LTIME
+LPACED = ARG == 0
+BA_CAPTURE = 0
+CALL BA_INIT
+SIF RESULT != 0
+    RETURN -1
+REDRAW 0
+CLEARLINE LINECOUNT + 1
+ALIGNMENT LEFT
+SETCOLOR 255, 255, 255
+SETBGCOLOR 0, 0, 0
+BA_STARTMS = GETMILLISECOND()
+FOR LF, 0, BA_FRAMES
+    LTIME = GETMILLISECOND()
+    CALL BA_RENDER, LF
+    BA_CALCMS += GETMILLISECOND() - LTIME
+    IF LPACED
+        LW = BA_STARTMS + LF * 1000 / BA_FPS - GETMILLISECOND()
+        ; AWAIT flushes before sleeping, so wait while the previous frame is
+        ; still on screen, then present the newly computed frame after waking.
+        SIF LW > 0
+            AWAIT LW
+    ENDIF
+    LTIME = GETMILLISECOND()
+    CALL BA_PRESENT
+    BA_PRESENTMS += GETMILLISECOND() - LTIME
+    IF LPACED
+        LLATE = GETMILLISECOND() - BA_STARTMS - LF * 1000 / BA_FPS
+        BA_MAXLATE = MAX(BA_MAXLATE, LLATE)
+        SIF LLATE > 1000 / BA_FPS
+            BA_LATEFRAMES += 1
+    ENDIF
+NEXT
+IF LPACED
+    LW = BA_STARTMS + BA_FRAMES * 1000 / BA_FPS - GETMILLISECOND()
+    SIF LW > 0
+        AWAIT LW
+ENDIF
+BA_ELAPSEDMS = GETMILLISECOND() - BA_STARTMS
+CLEARLINE BA_SHOWN
+BA_SHOWN = 0
+REDRAW 3
+PRINTFORML Completed {BA_FRAMES} / {BA_FRAMES} frames. Elapsed: {BA_ELAPSEDMS} ms.
+PRINTFORML Calculation and row construction: {BA_CALCMS} ms; presentation: {BA_PRESENTMS} ms.
+SIF LPACED
+    PRINTFORML Maximum lateness: {BA_MAXLATE} ms; late by over one frame: {BA_LATEFRAMES}.
+OUTPUTLOG
+RETURN 0
+
+; Independent verification interface. Capture stdout to a file. Each record:
+;   @FRAME <zero-based index>
+;   24 lines of 158 uppercase hex digits (79 computed 8-bit gray samples)
+; The final record is @DONE <frame count>. No timing or terminal controls.
+@BA_VERIFY
+#DIM LF
+#DIM LY
+BA_CAPTURE = 1
+CALL BA_INIT
+SIF RESULT != 0
+    RETURN -1
+FOR LF, 0, BA_FRAMES
+    CALL BA_RENDER, LF
+    PRINTFORML @FRAME {LF}
+    FOR LY, 0, BA_HEIGHT
+        PRINTSL BA_TRACE:LY
+    NEXT
+NEXT
+PRINTFORML @DONE {BA_FRAMES}
+RETURN 0
+
+; Elapsed-time playback.  The first target and clock origin share one actual
+; clock sample. Later targets come from floor(elapsed_ms * FPS / 1000).
+; A missed image is never built; BA_RENDER advances only necessary topology
+; and the curve chains of spans alive at the selected target.
+; GETMILLISECOND is the engine's wall-clock query, not a monotonic clock.
+@BA_REALTIME
+BA_RT_AUDIT = 0
+CALL BA_RUN_REALTIME, BA_FRAMES
+RETURN RESULT
+
+; Identical movie loop; only the post-movie diagnostic emission differs.
+@BA_REALTIME_AUDIT
+BA_RT_AUDIT = 1
+CALL BA_RUN_REALTIME, BA_FRAMES
+RETURN RESULT
+
+; Four-second real-clock smoke test using the same production movie loop.
+@BA_REALTIME_AUDIT_SHORT
+BA_RT_AUDIT = 1
+CALL BA_RUN_REALTIME, 120
+RETURN RESULT
+
+@BA_RUN_REALTIME(ARG)
+#DIM LLIMIT
+#DIM LDURATION
+#DIM LSELECT
+#DIM LF
+#DIM LRAW
+#DIM LW
+#DIM LTIME
+#DIM LCOST
+#DIM LFINISH
+#DIM LI
+LLIMIT = MIN(BA_FRAMES, MAX(1, ARG))
+LDURATION = (LLIMIT * 1000 + BA_FPS - 1) / BA_FPS
+BA_CAPTURE = 0
+CALL BA_INIT
+SIF RESULT != 0
+    RETURN -1
+BA_RT_COUNT = 0
+BA_RT_MAX_CALCMS = 0
+BA_RT_MAX_PRESENTMS = 0
+BA_RT_LAST_CALCMS = 0
+BA_RT_FORCED_FINAL = 0
+REDRAW 0
+CLEARLINE LINECOUNT + 1
+ALIGNMENT LEFT
+SETCOLOR 255, 255, 255
+SETBGCOLOR 0, 0, 0
+; Selecting frame zero defines the beginning of the movie timeline. No
+; loading, data preparation, or report printing is included in this interval.
+LTIME = GETMILLISECOND()
+BA_STARTMS = LTIME
+LSELECT = LTIME - BA_STARTMS
+WHILE 1
+    LRAW = MAX(0, LSELECT) * BA_FPS / 1000
+    LF = MIN(LLIMIT - 1, MAX(BA_FRAME, LRAW))
+    SIF LRAW >= LLIMIT
+        BA_RT_FORCED_FINAL = 1
+    IF LF > BA_FRAME
+        LTIME = GETMILLISECOND()
+        CALL BA_RENDER, LF
+        SIF RESULT != 0
+            RETURN -1
+        LCOST = GETMILLISECOND() - LTIME
+        BA_CALCMS += LCOST
+        BA_RT_MAX_CALCMS = MAX(BA_RT_MAX_CALCMS, LCOST)
+        BA_RT_LAST_CALCMS = LCOST
+        LTIME = GETMILLISECOND()
+        CALL BA_PRESENT
+        LFINISH = GETMILLISECOND() - BA_STARTMS
+        LCOST = GETMILLISECOND() - LTIME
+        BA_PRESENTMS += LCOST
+        BA_RT_MAX_PRESENTMS = MAX(BA_RT_MAX_PRESENTMS, LCOST)
+        ; Records are collected in both default and diagnostic playback.
+        ; They never occupy an image row or alter the clock-selected target.
+        BA_RT_FRAME:BA_RT_COUNT = LF
+        BA_RT_SELECTMS:BA_RT_COUNT = LSELECT
+        BA_RT_FINISHMS:BA_RT_COUNT = LFINISH
+        BA_RT_COUNT += 1
+    ENDIF
+    SIF BA_FRAME == LLIMIT - 1
+        BREAK
+    ; A fast renderer waits for the next source-frame boundary. A slow one
+    ; samples the clock again immediately and skips obsolete source frames.
+    LW = BA_STARTMS + ((BA_FRAME + 1) * 1000 + BA_FPS - 1) / BA_FPS - GETMILLISECOND()
+    SIF LW > 0
+        AWAIT LW
+    LSELECT = GETMILLISECOND() - BA_STARTMS
+WEND
+; Keep the final image until the source end boundary if it arrived in time.
+; If work crossed that boundary, only the in-flight/final render can overrun;
+; no remaining frame backlog is played after the movie duration.
+LW = BA_STARTMS + LDURATION - GETMILLISECOND()
+SIF LW > 0
+    AWAIT LW
+BA_ELAPSEDMS = GETMILLISECOND() - BA_STARTMS
+BA_RT_SKIPPED = LLIMIT - BA_RT_COUNT
+BA_RT_OVERRUNMS = MAX(0, BA_ELAPSEDMS - LDURATION)
+CLEARLINE BA_SHOWN
+BA_SHOWN = 0
+REDRAW 3
+IF BA_RT_AUDIT
+    PRINTL @TIMELINE_BEGIN
+    FOR LI, 0, BA_RT_COUNT
+        PRINTFORML @PRESENT {BA_RT_FRAME:LI} {BA_RT_SELECTMS:LI} {BA_RT_FINISHMS:LI}
+    NEXT
+    PRINTFORML @TIMELINE {LLIMIT} {BA_RT_COUNT} {BA_RT_SKIPPED} {BA_ELAPSEDMS} {BA_FRAME}
+    PRINTFORML @TIMING {LDURATION} {BA_RT_OVERRUNMS} {BA_RT_MAX_CALCMS} {BA_RT_MAX_PRESENTMS} {BA_RT_LAST_CALCMS} {BA_RT_FORCED_FINAL}
+    PRINTL @TIMELINE_END
+ENDIF
+PRINTFORML Realtime complete. Rendered: {BA_RT_COUNT}; skipped: {BA_RT_SKIPPED}; last: {BA_FRAME}.
+PRINTFORML Timeline: {BA_ELAPSEDMS} / {LDURATION} ms; overrun: {BA_RT_OVERRUNMS} ms.
+PRINTFORML Calculation and row construction: {BA_CALCMS} ms; presentation: {BA_PRESENTMS} ms.
+PRINTFORML Longest calculation: {BA_RT_MAX_CALCMS} ms; presentation: {BA_RT_MAX_PRESENTMS} ms.
+OUTPUTLOG
+RETURN 0
+
+; Deterministic seek verification uses the same renderer as both movie modes.
+; The input indices deliberately include large forward jumps, repeated frames,
+; backwards seeks, restarts, a mid-film glow frame, and the final source frame.
+@BA_VERIFY_JUMPS
+#DIM LI
+BA_CAPTURE = 1
+CALL BA_INIT
+SIF RESULT != 0
+    RETURN -1
+FOR LI, 0, BA_JUMP_COUNT
+    CALL BA_TRACE_ONE, BA_JUMP_FRAME:LI
+    SIF RESULT != 0
+        RETURN -1
+NEXT
+PRINTFORML @DONE {BA_JUMP_COUNT}
+RETURN 0
+
+; Small, real-data seek test. It avoids a full-film topology traversal.
+@BA_VERIFY_JUMP_SMOKE
+#DIM LI
+BA_CAPTURE = 1
+CALL BA_INIT
+SIF RESULT != 0
+    RETURN -1
+FOR LI, 0, BA_JUMP_SMOKE_COUNT
+    CALL BA_TRACE_ONE, BA_JUMP_SMOKE_FRAME:LI
+    SIF RESULT != 0
+        RETURN -1
+NEXT
+PRINTFORML @DONE {BA_JUMP_SMOKE_COUNT}
+RETURN 0
+
+@BA_TRACE_ONE(ARG)
+#DIM LF
+#DIM LY
+LF = ARG
+CALL BA_RENDER, LF
+SIF RESULT != 0
+    RETURN -1
+PRINTFORML @FRAME {LF}
+FOR LY, 0, BA_HEIGHT
+    PRINTSL BA_TRACE:LY
+NEXT
+RETURN 0

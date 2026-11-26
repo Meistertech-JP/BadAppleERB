@@ -1,0 +1,42 @@
+{
+  "CSV/GameBase.csv": {
+    "bytes": 230,
+    "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8"
+  },
+  "ERB/GEOMETRY.ERH": {
+    "bytes": 975830,
+    "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+  },
+  "ERB/PLAYER.ERB": {
+    "bytes": 15614,
+    "sha256": "5b53dc0df0fa0820c03489461984f99642ce979ef2e6d5bce3d71d23caae5571"
+  },
+  "ERB/PLAYER.ERH": {
+    "bytes": 1554,
+    "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+  },
+  "PyEmuera.pyz": {
+    "bytes": 668438,
+    "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+  },
+  "txt00.txt": {
+    "bytes": 2906994,
+    "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+  },
+  "txt01.txt": {
+    "bytes": 2916540,
+    "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+  },
+  "txt02.txt": {
+    "bytes": 5464257,
+    "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+  },
+  "txt03.txt": {
+    "bytes": 2772972,
+    "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+  },
+  "txt04.txt": {
+    "bytes": 1291172,
+    "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+  }
+}

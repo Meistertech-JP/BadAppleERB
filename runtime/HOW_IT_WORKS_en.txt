@@ -1,0 +1,555 @@
+BAD APPLE!! ERB: IMAGE GENERATION AND PLAYBACK
+===========================================
+
+This document describes the numerical movie representation, the ERB renderer,
+and the two scheduling modes. README_en.md covers installation and operation.
+
+The implementation consists of one executable ERB script, PLAYER.ERB, plus
+headers and numerical data. It builds character rows, replaces the previous
+picture, and flushes a completed frame through ordinary ERB drawing commands.
+
+
+1. THE PICTURE AND TIMELINE
+--------------------------
+
+The supplied data represents 6,573 video frames at 30 frames per second. Frame
+indices run from 0 to 6572. Each frame contains 24 rows of 79 grayscale cells,
+with integer values from 0 to 255. The movie timeline is therefore:
+
+    6573 / 30 = 219.100 seconds
+
+The source video is sm8628149.mp4, a 512 x 384, 4:3 video. Its first video
+timestamp is treated as the start of the movie. The last image occupies the
+final 1/30-second interval. The player displays video only; it has no audio
+decoder or audio synchronization path.
+
+Per-frame timestamps are recorded during extraction. Runtime scheduling uses
+the fixed 30 fps grid and source-frame indices.
+
+The numerical reconstruction target is the fixed 79 x 24 grayscale reference.
+That target is distinct from the 512 x 384 source pixels and from the physical
+pixels produced by a terminal font. The reference contains 12,462,408 cell
+values across the complete movie.
+
+The script supplies one character per cell. A space represents black, and a
+colored '#' represents a nonblack cell. A terminal's glyph shape, antialiasing,
+cell width, and line spacing determine how those logical cells look on screen.
+For a physical 4:3 image, character-cell height / width should be 79 / 32,
+approximately 2.46875.
+
+
+2. OFFLINE CONVERSION FROM THE VIDEO
+-----------------------------------
+
+extract_reference.py performs the video-dependent work before distribution.
+It uses ffprobe to record stream metadata and frame timestamps, then FFmpeg to
+decode the first video stream. The exact filter is:
+
+    scale=79:24:flags=area:in_range=tv:out_range=full,format=gray
+
+The complete source rectangle maps to 79 columns and 24 rows. There is no crop
+or added letterbox. Area resampling averages source image contributions to the
+smaller grid, retaining intermediate gray levels at edges and during fades.
+The declared limited-range input is converted to full-range grayscale.
+
+FFmpeg outputs raw unsigned 8-bit gray samples, with frame pacing set to
+passthrough. The extraction code records those samples in reference_frames.npz
+under the key 'gray'. It also stores timestamps and a thresholded binary array;
+the distributed grayscale model uses 'gray', not the binary array.
+
+reference_metadata.json records the source hash, extraction filter, decoder
+version, dimensions, and reference hash. For this movie, the grayscale byte
+stream has SHA256:
+
+    d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029
+
+This extraction step is separate from playback. Normal playback reads the
+compiled numerical model and does not open an MP4 or run FFmpeg.
+
+
+3. HORIZONTAL SPANS
+-------------------
+
+For each reference frame, the compiler examines each horizontal row. Adjacent
+cells with the same grayscale value form a span. A nonblack span is represented
+by three integers:
+
+    left edge L, right edge R, grayscale value G
+
+The interval is half-open: cells L through R-1 receive value G. Valid spans
+satisfy 0 <= L < R <= 79 and 1 <= G <= 255. Black gaps are implicit, so they
+need no active span of their own.
+
+For example, L=12, R=18, G=192 means six cells beginning at column 12 have gray
+value 192. This is geometric and brightness information; the display string of
+six '#' characters is constructed later by the renderer.
+
+
+4. PERSISTENT TRACKS AND TOPOLOGY
+--------------------------------
+
+The compiler associates spans in consecutive frames on the same row. Its
+matching favors overlapping spans, nearby endpoints, and similar grayscale
+values. The matching preserves left-to-right order, so surviving spans never
+exchange their order within a row.
+
+A matched span continues an existing track. An unmatched new span starts a
+track, and an unmatched old span ends a track. This permits one track to
+survive changes elsewhere in the row. Splits, merges, and appearance changes
+can introduce births and deaths without restarting every span in that row.
+
+Each track has a fixed row, a first frame, a last frame, and three evolving
+channels: left edge, right edge, and grayscale. Track identity is an encoding
+device derived from the sampled rows. It does not identify an original
+animation layer, character skeleton, or authored object.
+
+The runtime maintains the active tracks on each row in an ordered doubly
+linked list. Birth metadata names a track's left neighbor at insertion time;
+a special value identifies the row head. Death events remove finished tracks.
+At each event frame, deaths are processed before births so the list represents
+the spans active in that frame.
+
+The distributed model contains 259,787 tracks across the entire movie. This is
+the total number of tracks born over time, rather than the number simultaneously
+visible in any one frame.
+
+
+5. THREE INDEPENDENT CURVE CHAINS PER TRACK
+------------------------------------------
+
+Each track's L, R, and G channels is fitted independently. A brightness change
+can therefore start a new gray curve while a boundary continues its current
+motion curve. Conversely, a boundary change need not restart the gray curve.
+
+A channel is a sequence of consecutive, nonoverlapping pieces. Each piece has:
+
+    s: its first source-frame index
+    d: its duration in source frames
+    b: its integer starting value
+    p: a signed slope numerator
+    q: a positive slope denominator
+
+For an integer frame f within the piece, let t = f - s. The reconstructed value
+is evaluated with this exact integer expression:
+
+    value(f) = floor( ((2*b + 1)*q + 2*p*t) / (2*q) )
+
+It is equivalent to rounding b + p*t/q to the nearest integer, with an exact
+half rounded upward. The compiler ensures the complete numerator is
+nonnegative over every stored piece. Consequently, ERB's integer division
+gives the same result even when p is negative. A zero slope returns b directly.
+
+For b=12, p=3, q=2, frames at t=0,1,2 produce 12,14,15. For b=20, p=-1, q=2,
+frames at t=0,1,2 produce 20,20,19. The fractional calculation uses integers
+throughout; it does not depend on floating-point rounding at playback time.
+
+To fit a source sample v at t>0 exactly, the slope p/q must lie in the interval:
+
+    (2*(v-b)-1)/(2*t) <= p/q < (2*(v-b)+1)/(2*t)
+
+The compiler intersects these constraints over successive samples using
+integer cross products. It extends the piece while a valid interval remains,
+chooses a rational slope inside that interval, and starts another piece when
+the constraints can no longer be satisfied. All source samples participate in
+this process. A one-frame constant piece can represent a sample when no longer
+piece is possible.
+
+The model has 1,521,928 curve pieces:
+
+    Left edges:     382,428
+    Right edges:    383,004
+    Grayscale:      756,496
+
+Short pieces remain wherever topology or brightness requires dense samples.
+The representation is exact for the fixed reference because every retained
+piece is constrained by its covered samples, not because all motion is assumed
+to follow a small number of smooth artistic curves.
+
+
+6. SHARED COEFFICIENTS AND PACKED NUMBERS
+---------------------------------------
+
+pack_geometry.py collects identical (b,p,q) triples into a shared dictionary.
+There are 104,206 dictionary entries. ERB/GEOMETRY.ERH holds the arrays
+BA_D_BASE, BA_D_NUM, and BA_D_DEN, along with dimensions, frame count, frame
+rate, and model counts.
+
+The rest of the model is stored in five UTF-8 files. Their text characters
+encode numeric digits; they are never printed as movie characters. A 15-bit
+digit d in the range 0..32767 is stored as the Unicode character:
+
+    code point = 256 + d
+
+The encoded range is U+0100 through U+80FF. It stays within the Basic
+Multilingual Plane and contains no surrogate code points. Larger identifiers
+use two digits in little-endian base 32768:
+
+    identifier = low + 32768 * high
+
+The file contents are:
+
+    txt00.txt   Left-edge curve chains, one line per track.
+    txt01.txt   Right-edge curve chains, one line per track.
+    txt02.txt   Grayscale curve chains, one line per track.
+    txt03.txt   Track birth metadata, one line per track.
+    txt04.txt   Death-event lists, one line per source frame plus an end line.
+
+In txt00 through txt02, each piece occupies three encoded characters:
+
+    duration, coefficient-ID-low, coefficient-ID-high
+
+The first piece begins at the track's first frame. Later pieces follow directly
+after the preceding piece. Thus their start and end frames can be recovered by
+adding durations; each piece does not need an absolute timestamp.
+
+In txt03, each four-character record contains the first frame, row, and a
+two-digit left-neighbor-plus-one value. Zero means there is no left neighbor.
+Tracks are stored in birth order. In txt04, each track identifier occupies two
+characters. The death list for a track occurs immediately after its last active
+frame. The file includes frame 6573 as an end sentinel, for 6,574 records.
+
+Records are separated by the literal LF character, U+000A. The loader explicitly
+splits on LF because other Unicode characters that can act as line separators
+are valid encoded digits. These files must retain their UTF-8 bytes and LF
+record structure; text normalization or line-ending conversion changes data.
+
+The numerical payload contains trajectories and topology events. It has no
+table of completed 79 x 24 pictures and no collection of ready-to-print movie
+frames. Per-frame death lists and short curve pieces are part of the numeric
+model. packed_format.json describes the layout and lists file hashes.
+
+
+7. LOADING, CACHES, AND REPLAY STATE
+----------------------------------
+
+BA_LOAD reads the five files with LOADTEXT and separates their records. It
+checks that each track-oriented file contains 259,787 records and that the
+death-event file contains 6,574 records. A successful load sets BA_LOADED, so
+replaying or changing modes reuses the already loaded data.
+
+BA_INIT prepares reusable strings: spaces and '#' runs of lengths 0 through
+79, and opening font tags for all 256 gray levels. It also resets playback
+counters and calls BA_RESET.
+
+BA_RESET clears the 24 row heads, resets the birth cursor, and sets the event
+and rendered-frame indices to -1. Track state becomes reachable only when that
+track is born again. Each birth initializes its links and all three curve-chain
+cursors. Each death clears its traversal and curve state, allowing sparse
+interpreter storage for that track to be released.
+
+This separation keeps immutable model data available across replays while
+restarting the traversal and timing state for each playback. A request to render
+an earlier frame also resets traversal before rebuilding the required state.
+
+
+8. CALCULATING A REQUESTED FRAME
+-------------------------------
+
+BA_RENDER accepts a source-frame index. It first advances topology events from
+the previous event position through that index, maintaining the active lists.
+If the frame index jumps forward, intermediate event frames are processed but
+their picture rows are not constructed.
+
+For each active track, the renderer advances each independent curve cursor
+until it reaches the piece containing the requested frame. It obtains b, p,
+and q from the shared dictionary, then calculates L, R, and G using the integer
+formula above.
+
+Only tracks alive at the requested frame need their visible values evaluated.
+A skipped interval can contain births and deaths that still need list updates;
+that bookkeeping is different from constructing every skipped image.
+
+The renderer walks each row from left to right. It appends spaces for the gap
+before a span, switches the text color if needed, and appends R-L '#' characters
+for the span itself. After the final span, it pads the row with spaces to exactly
+79 visible cells.
+
+For gray value G, the font color is the equal-RGB color #GGGGGG, where GG is the
+two-digit hexadecimal representation of G. For example, G=192 becomes #C0C0C0.
+The tags are PyEmuera text markup, interpreted by the engine; playback does not
+open a browser or render a web page.
+
+BA_ROW stores the 24 newly constructed row strings. This is the current image
+buffer, generated from trajectories at runtime.
+
+
+9. REPLACING THE TERMINAL PICTURE
+--------------------------------
+
+BA_PRESENT uses this presentation sequence:
+
+    CLEARLINE BA_SHOWN
+    HTML_PRINT each of the 24 calculated rows
+    BA_SHOWN = 24
+    AWAIT 0
+
+CLEARLINE removes the previous picture from the engine's retained text output.
+HTML_PRINT interprets the font tags and emits one logical row. AWAIT 0 flushes
+the completed image without requesting a timed delay. REDRAW control keeps
+intermediate row construction from becoming a separate visible partial image.
+
+The 79-column width avoids using a terminal's final wrap-sensitive column. The
+24-row height leaves room for the current console line within an 80 x 25
+terminal. The launchers redirect standard-error messages to
+logs/diagnostics.log so diagnostics do not occupy movie rows.
+
+
+10. MODE 1: SYNCHRONIZATION TO ELAPSED TIME
+-----------------------------------------
+
+BA_REALTIME calls BA_RUN_REALTIME with the complete frame count. After data and
+renderer initialization, the player takes a clock reading T0 and starts at
+source frame zero. Initialization and menu time are outside the movie timeline.
+
+At a subsequent selection, let e be the elapsed milliseconds since T0. The
+nominal source-frame index is:
+
+    raw = floor( max(0,e) * 30 / 1000 )
+
+The selected index is limited to the final source frame and never moves
+backward during that playback:
+
+    target = min(6572, max(last_rendered_frame, raw))
+
+If target is newer than the last rendered frame, the player calculates and
+presents it. If processing is fast enough, it waits until the next source-frame
+boundary before selecting again. Otherwise it samples the clock immediately
+and selects the current frame, skipping obsolete source-frame images.
+
+A selected frame is completed before another is selected. The renderer does
+not interrupt a calculation halfway through, and it does not build a background
+queue of all missed frames. Skipping affects which images are requested, while
+BA_RENDER still advances the topology needed for the new target.
+
+The clock is GETMILLISECOND, provided by the engine as wall-clock time. It is
+not a monotonic-clock API. Scheduling follows that clock, so manual or system
+clock adjustments can affect waits and frame selection. The forward-only
+target rule prevents an adjustment from replaying earlier frame indices.
+
+The source end boundary is T0 + 219100 milliseconds. Once frame 6572 has been
+displayed, it remains until that boundary if it arrived early. If work has
+already crossed the boundary, the selected or final-frame work completes and
+playback ends without draining a backlog. Consequently 219.100 seconds is the
+target duration, not a hard deadline that can preempt arbitrary calculation or
+terminal-output work.
+
+
+11. MODE 2: ALL SOURCE FRAMES
+----------------------------
+
+BA_PLAY calls BA_RUN in paced mode. The loop visits every index from 0 through
+6572, calculates its rows, and presents the completed picture. A frame is never
+discarded because its deadline has passed.
+
+For source frame f, the nominal presentation deadline is:
+
+    T0 + floor(f * 1000 / 30) milliseconds
+
+The frame is calculated before the wait. If time remains before the deadline,
+AWAIT holds the preceding picture until the new frame is due. If the deadline
+has passed, the new frame is presented immediately and the loop continues with
+f+1. Deadlines are measured from the same origin; the player does not add a new
+fixed 1/30-second sleep after every calculation.
+
+At the end, it waits until the source end boundary only if processing finished
+early enough. If computation or terminal output is slower than the source
+rate, the movie takes longer. The selected mode therefore preserves every
+source-frame presentation while allowing wall-clock duration to expand.
+
+The two modes share BA_INIT, BA_RENDER, BA_EVENTS, and BA_PRESENT. Neither mode
+changes the fitted contours or brightness values for a given frame index.
+
+
+12. THE MENU AND ITS ASCII ILLUSTRATION
+--------------------------------------
+
+SYSTEM_TITLE calls BA_MENU. The menu takes string input, so invalid input can
+be handled within the same fixed screen rather than adding uncontrolled prompt
+rows. The choices are 1 for BA_REALTIME, 2 for BA_PLAY, and 0 to exit.
+
+Before playback, the menu displays a loading state and calls BA_LOAD. After
+playback, it draws the same menu with a completion message. A new selection
+initializes fresh playback state while retaining the loaded numerical data.
+
+BA_MENU_DRAW clears previous output with CLEARLINE LINECOUNT + 1. Its content
+occupies 23 rows; the engine's input prompt uses the next row. The title artwork
+is 13 rows of printable ASCII, 73 columns wide, with a three-column indent. Its
+maximum drawn width is 76 columns.
+
+BA_MENU_ART contains literal PRINTL statements. The ribboned figure, apple,
+witch hat, and broom are a static title decoration. They are separate from the
+movie's fitted span data and require no additional file at runtime. All menu,
+rendering, and playback functions reside in PLAYER.ERB; ERH files supply
+declarations and constants.
+
+Windows launcher and UTF-8 setup
+
+BadAppleERB.cmd sets PYTHONUTF8=1 and PYTHONIOENCODING=utf-8, then starts the
+engine through console_utf8.py in the same directory. The helper saves the
+console input and output code pages separately, switches both to code page
+65001 (UTF-8), and configures Python's standard text streams for UTF-8. It runs
+PyEmuera.pyz and restores each saved console code page when execution ends.
+The engine archive, ERB script, and numerical movie data remain unchanged.
+BadAppleERB_CPython.cmd uses the same launcher and UTF-8 setup with CPython.
+
+If Japanese text is garbled on Windows, keep BadAppleERB.cmd and console_utf8.py
+from the same package version together and start through BadAppleERB.cmd.
+Missing-glyph boxes also require a terminal font with Japanese glyphs.
+
+
+13. SOURCE FILES AND IMPLEMENTATION REFERENCES
+---------------------------------------------
+
+The source package contains the following core files:
+
+    extract_reference.py
+        Decodes the source video and freezes the 79 x 24 grayscale reference.
+
+    compiler_geometry.py
+        Tracks spans, fits independent rational curves, and reconstructs the
+        result for cell-by-cell comparison. The persistent-track build uses
+        --persistent. --no-header leaves large arrays for the packed exporter.
+
+    pack_geometry.py
+        Builds the shared coefficient dictionary and writes the UTF-8 numerical
+        payload plus ERB/GEOMETRY.ERH and packed_format.json.
+
+    runtime/console_utf8.py
+        Configures Windows console and Python text streams for UTF-8, starts
+        the engine, and restores the original input and output code pages.
+
+    reference_frames.npz and reference_metadata.json
+        Frozen grayscale input and its extraction metadata.
+
+    persistent_gray/geometry_model.npz
+        The compiler's numerical track and curve model.
+
+    persistent_gray/geometry_report.json
+        Reconstruction counts, hashes, and structural measurements.
+
+    runtime/ERB/PLAYER.ERB
+        Menu, loading, event traversal, frame calculation, presentation,
+        scheduling, and diagnostic entry points.
+
+    runtime/ERB/PLAYER.ERH
+        Mutable state declarations.
+
+    runtime/ERB/GEOMETRY.ERH and runtime/txt00.txt through txt04.txt
+        Compiled numerical data used during playback.
+
+    requirements-build.txt
+        Python package versions for build and supporting image utilities.
+
+These files are the implementation references for the formulas, data counts,
+and behavior in this document. Component licenses and upstream information are
+under runtime/third_party and in the platform interpreter distribution.
+
+
+14. REBUILDING THE NUMERICAL MODEL
+---------------------------------
+
+Rebuilding is optional and uses the separate source package. The runtime
+packages already contain the generated data.
+
+Use a Python environment compatible with requirements-build.txt. NumPy is
+needed for extraction, fitting, and packing. Pillow supports the accompanying
+image and preview utilities. FFmpeg and ffprobe are needed only when extracting
+a reference from an MP4; they are not needed to compile the supplied frozen
+reference_frames.npz.
+
+From the source-package root, the main build commands are:
+
+    python3 -m pip install -r requirements-build.txt
+    python3 compiler_geometry.py reference_frames.npz --key gray --persistent --no-header --output rebuild/model
+    python3 pack_geometry.py rebuild/model/geometry_model.npz rebuild/generated
+
+Use the appropriate Python executable name for the selected environment. A
+virtual environment can keep build dependencies separate from other projects.
+
+The compiler writes geometry_model.npz and geometry_report.json. It validates
+the reconstructed cells against the reference before completing successfully.
+The packer writes only the generated data files, header, and format manifest.
+To assemble a runnable rebuilt copy, copy runtime/ to a new directory and
+replace that copy's txt00.txt through txt04.txt, ERB/GEOMETRY.ERH, and
+packed_format.json with the files under rebuild/generated. Keep the matching
+PLAYER.ERB, PLAYER.ERH, CSV directory, engine, and launchers with that copy.
+
+To extract a new reference from a copy of the original movie first:
+
+    python3 extract_reference.py /path/to/sm8628149.mp4 rebuild/reference
+
+Then pass rebuild/reference/reference_frames.npz to compiler_geometry.py.
+Decoder, filter, range conversion, and source-file identity are part of the
+reference definition. Compare the recorded hashes when reproducing an existing
+reference. The supplied player constants and timing are designed for this
+79 x 24, 30 fps movie; adapting arbitrary videos also requires reviewing those
+assumptions and the resulting model sizes.
+
+
+15. ACCURACY AND DISPLAY BOUNDARIES
+----------------------------------
+
+The model calculates integer grayscale values for a specific source-frame
+index. Fitting and reconstruction operate on the frozen reduced reference, so
+the meaning of exact reconstruction is equality of those logical cell values.
+This does not restore spatial detail removed when a 512 x 384 image becomes a
+79 x 24 grid.
+
+The terminal is responsible for turning colored characters into physical
+pixels. Different fonts, line heights, color palettes, and display scaling can
+produce different-looking glyphs from the same logical values. A truecolor
+monospaced terminal preserves the requested layout and RGB values most directly.
+
+Time-synchronized playback can omit source frames when work is late. All-frame
+playback can take longer than the source timeline. Those behaviors follow the
+two scheduling policies and are independent of the image calculation for any
+frame that is requested.
+
+
+16. DEVELOPER VERIFICATION ENTRY POINTS
+--------------------------------------
+
+The same PLAYER.ERB exposes diagnostic entry points that can be selected with
+the engine's --entry option. They bypass the title menu.
+
+BA_VERIFY calculates all 6,573 source frames and emits their logical grayscale
+values as text. From the source-package root, capture the trace with:
+
+    python3 -B runtime/PyEmuera.pyz runtime --entry BA_VERIFY --no-wait > trace.txt 2> diagnostics.log
+
+Each frame record starts with:
+
+    @FRAME n
+
+Here n is the zero-based source-frame index. The next 24 lines represent the
+image rows from top to bottom. Each line contains exactly 158 uppercase
+hexadecimal characters: two characters per cell, for 79 cells from left to
+right. Values range from 00 for black to FF for white. There are no separators
+between cell values. After the final frame, the trace ends with:
+
+    @DONE 6573
+
+These records describe calculated grayscale cells, independently of a
+terminal's '#' glyphs or color rendering. BA_VERIFY calls the same BA_RENDER
+used by both playback modes, with capture enabled instead of presentation.
+
+BA_VERIFY_JUMPS uses the same record format for the predefined frame-index
+sequence in BA_JUMP_FRAME. The sequence includes forward jumps, repeated
+indices, backward seeks, restarts, and the final source frame. The current
+sequence contains 35 requests, so its closing record is @DONE 35. Replace
+BA_VERIFY with BA_VERIFY_JUMPS in the command above to capture that sequence.
+The record count is the number of requests, including repeated indices.
+
+BA_REALTIME_AUDIT runs the full elapsed-time playback loop and prints timing
+records after the movie. Between @TIMELINE_BEGIN and @TIMELINE_END, each
+@PRESENT record contains the source-frame index, selection time, and completed
+presentation time; the times are milliseconds since the movie clock origin.
+The @TIMELINE summary contains the source-frame limit, rendered count, skipped
+count, elapsed milliseconds, and final frame index. The @TIMING summary records
+the target duration, overrun, maximum calculation and presentation times, last
+calculation time, and whether a target was selected at or after the end boundary.
+
+The audit uses the ordinary drawing path, so an interactive terminal is the
+appropriate output destination when examining playback timing. Diagnostic
+records are accumulated during playback and emitted afterward, keeping them
+out of the 79 x 24 picture area.

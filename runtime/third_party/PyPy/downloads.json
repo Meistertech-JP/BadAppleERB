@@ -1,0 +1,29 @@
+{
+  "obtained_at_utc": "2026-11-23T05:27:17.829125+00:00",
+  "download_page": "https://pypy.org/download.html",
+  "release_notes": "https://doc.pypy.org/release-v8.0.1.html",
+  "version": "PyPy8.0.1 / Python3.12.15",
+  "upstream_python312_status": "beta per release notes",
+  "downloads": [
+    {
+      "name": "pypy3.12-v8.0.1-linux64.tar.gz",
+      "source_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-linux64.tar.gz",
+      "final_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-linux64.tar.gz",
+      "bytes": 37994173,
+      "expected_sha256": "aeed27797777296d9c94e53bdfa608804696dbd4ff9f2213003cce064ee46ef8",
+      "actual_sha256": "aeed27797777296d9c94e53bdfa608804696dbd4ff9f2213003cce064ee46ef8",
+      "published_checksum_matches": true,
+      "checksums_url": "https://pypy.org/checksums"
+    },
+    {
+      "name": "pypy3.12-v8.0.1-win64.zip",
+      "source_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-win64.zip",
+      "final_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-win64.zip",
+      "bytes": 35587195,
+      "expected_sha256": "225aa62deed1a624c86d5ffd03cc34615ff927b095d8508ad82593ee23ddce91",
+      "actual_sha256": "225aa62deed1a624c86d5ffd03cc34615ff927b095d8508ad82593ee23ddce91",
+      "published_checksum_matches": true,
+      "checksums_url": "https://pypy.org/checksums"
+    }
+  ]
+}

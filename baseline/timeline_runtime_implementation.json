@@ -1,0 +1,42 @@
+{
+  "baseline_directory_unchanged": true,
+  "existing_function_instruction_identity": {
+    "BA_INIT": true,
+    "BA_LOAD": true,
+    "BA_RESET": true,
+    "BA_EVENTS": true,
+    "BA_RENDER": true,
+    "BA_PRESENT": true,
+    "BA_PLAY": true,
+    "BA_BENCH": true,
+    "BA_RUN": true,
+    "BA_VERIFY": true
+  },
+  "unchanged_data_engine": {
+    "ERB/GEOMETRY.ERH": true,
+    "PyEmuera.pyz": true,
+    "txt00.txt": true,
+    "txt01.txt": true,
+    "txt02.txt": true,
+    "txt03.txt": true,
+    "txt04.txt": true
+  },
+  "runtime_files": {
+    "ERB/PLAYER.ERB": "5b53dc0df0fa0820c03489461984f99642ce979ef2e6d5bce3d71d23caae5571",
+    "ERB/PLAYER.ERH": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+  },
+  "new_entries": [
+    "BA_REALTIME",
+    "BA_REALTIME_AUDIT",
+    "BA_REALTIME_AUDIT_SHORT",
+    "BA_RUN_REALTIME",
+    "BA_VERIFY_JUMPS",
+    "BA_VERIFY_JUMP_SMOKE",
+    "BA_TRACE_ONE"
+  ],
+  "clock": "GETMILLISECOND wall-clock; time origin and first selection share a real clock sample",
+  "source_duration_ms": 219100,
+  "short_duration_ms": 4000,
+  "jump_trace_records": 35,
+  "smoke_trace_records": 16
+}

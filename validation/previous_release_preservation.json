@@ -1,0 +1,187 @@
+{
+  "pass": true,
+  "file_count": 36,
+  "scope": "Prior release files retained byte-for-byte",
+  "files": {
+    "runtime/BadAppleERB.cmd": {
+      "pass": true,
+      "bytes": 410,
+      "sha256": "ddbbdbe855876e6146a5886e3e3c07155e9a80aae5f5d80eeab45eb52e975a4a"
+    },
+    "runtime/BadAppleERB_CPython.cmd": {
+      "pass": true,
+      "bytes": 93,
+      "sha256": "91b11e1137648fde90bc2b60fae9902a2495d207a156d22d747f099a44e7e715"
+    },
+    "runtime/BadAppleERB_allframes.cmd": {
+      "pass": true,
+      "bytes": 59,
+      "sha256": "972b13cec05f4a153bcfe49aaed3ee0189bb741b46a379832ac37e296c827126"
+    },
+    "runtime/CSV/GameBase.csv": {
+      "pass": true,
+      "bytes": 230,
+      "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8"
+    },
+    "runtime/ERB/GEOMETRY.ERH": {
+      "pass": true,
+      "bytes": 975830,
+      "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+    },
+    "runtime/ERB/PLAYER.ERB": {
+      "pass": true,
+      "bytes": 15614,
+      "sha256": "5b53dc0df0fa0820c03489461984f99642ce979ef2e6d5bce3d71d23caae5571"
+    },
+    "runtime/ERB/PLAYER.ERH": {
+      "pass": true,
+      "bytes": 1554,
+      "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+    },
+    "runtime/LICENSE": {
+      "pass": true,
+      "bytes": 1071,
+      "sha256": "76b1f6a3d9fbabd88784ba4a6d8dc454dc39527b4089bacf38273b37113d388f"
+    },
+    "runtime/PyEmuera.pyz": {
+      "pass": true,
+      "bytes": 668438,
+      "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+    },
+    "runtime/README_ja.txt": {
+      "pass": true,
+      "bytes": 5738,
+      "sha256": "3c599375084d658fb917af92fc1d7752ae7557e4847ef04926643a1cce65f6fb"
+    },
+    "runtime/packed_format.json": {
+      "pass": true,
+      "bytes": 1842,
+      "sha256": "7d1efb3ffd7a5cb87816a91f5e0a8a0ad31b054685b09e17ad0dc2cbc049efc6"
+    },
+    "runtime/run.sh": {
+      "pass": true,
+      "bytes": 291,
+      "sha256": "8aa2a5501337f065faad17d55a92abb69c9dc3b3c370ca60cd4b98cee7307ce2"
+    },
+    "runtime/run_allframes.sh": {
+      "pass": true,
+      "bytes": 83,
+      "sha256": "1d1ccaba215d8cb7adf007164206d4cf056e41a76b02238f45bc341a41e2f104"
+    },
+    "runtime/third_party/PyEmuera/LICENSE": {
+      "pass": true,
+      "bytes": 1078,
+      "sha256": "b33bbcc5a0d1ace88bfb1d3f9443337ce4b1030a68396430c53b1563203d63f0"
+    },
+    "runtime/third_party/PyEmuera/THIRD_PARTY_MS_NLS_NOTICE_ja.md": {
+      "pass": true,
+      "bytes": 2743,
+      "sha256": "036d37cfae2318fb0b854022acdf088343ca7adbc6e3b27bcf64595118f23c3e"
+    },
+    "runtime/third_party/PyEmuera/THIRD_PARTY_NOTICES.md": {
+      "pass": true,
+      "bytes": 5848,
+      "sha256": "cdb1dfe80b9ffe1defc575c280ac8bd2b82d44f6c81ad50a10671f0dbf284edb"
+    },
+    "runtime/third_party/PyEmuera/licenses/Emuera1824.txt": {
+      "pass": true,
+      "bytes": 1266,
+      "sha256": "ce1134568e4a9fd56d4831c37dceb82050009e90349394f3f05a03a668500a06"
+    },
+    "runtime/third_party/PyEmuera/licenses/MICROSOFT_REFERENCE_SOURCE_MIT.txt": {
+      "pass": true,
+      "bytes": 1083,
+      "sha256": "b5cb7ff7859e7d282d98fc43ab081b0dda5dc659dc3385cf65740c759a7e6a6c"
+    },
+    "runtime/third_party/PyEmuera/licenses/UNICODE_LICENSE_V3.txt": {
+      "pass": true,
+      "bytes": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    "runtime/third_party/PyPy/BUNDLE_PROVENANCE_ja.txt": {
+      "pass": true,
+      "bytes": 3174,
+      "sha256": "8d74fab6297df3d487929fbb38491cebc2883ed9bf67af58a387ffdc6a83449b"
+    },
+    "runtime/third_party/PyPy/bundle_provenance.json": {
+      "pass": true,
+      "bytes": 5850,
+      "sha256": "fca83fb20026050029cc1a920901f9d1fe931cf952285134df0e7791c6d20b44"
+    },
+    "runtime/third_party/PyPy/downloads.json": {
+      "pass": true,
+      "bytes": 1359,
+      "sha256": "46f80071ece3efc6a3c8014d3881d206faed66a62f548b5a62fdcae42e83d845"
+    },
+    "runtime/third_party/PyPy/engine_cli_sanity.json": {
+      "pass": true,
+      "bytes": 6052,
+      "sha256": "0d16cf7c9cf3b66889bda3b3226997df251e04b023d4882fc2da751257cd0d7f"
+    },
+    "runtime/third_party/PyPy/linux_sanity.json": {
+      "pass": true,
+      "bytes": 694,
+      "sha256": "b57c1c938e6776c27b4f1ea7c4e37930062f22e4f8a545a395d05ace3f2b3e7c"
+    },
+    "runtime/third_party/PyPy/linux_upstream_manifest.json": {
+      "pass": true,
+      "bytes": 711174,
+      "sha256": "7fe22c351179d5e6cde0ac8ea52773d82c6e519759126482895c6acb74d4e431"
+    },
+    "runtime/third_party/PyPy/windows_upstream_manifest.json": {
+      "pass": true,
+      "bytes": 704556,
+      "sha256": "397f77886c5496ad47c9b1c5fca5e07290d7b544ea80b68d015f0b1fa5ed8d18"
+    },
+    "runtime/txt00.txt": {
+      "pass": true,
+      "bytes": 2906994,
+      "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+    },
+    "runtime/txt01.txt": {
+      "pass": true,
+      "bytes": 2916540,
+      "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+    },
+    "runtime/txt02.txt": {
+      "pass": true,
+      "bytes": 5464257,
+      "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+    },
+    "runtime/txt03.txt": {
+      "pass": true,
+      "bytes": 2772972,
+      "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+    },
+    "runtime/txt04.txt": {
+      "pass": true,
+      "bytes": 1291172,
+      "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+    },
+    "deliverables/BadAppleERB_79x24_timeline_linux64_PyPy.tar.gz": {
+      "pass": true,
+      "bytes": 45121688,
+      "sha256": "510516cbbdcc6c053dca10c03e5e6fa1bfcef134be857f6bf9f57bee80b41f28"
+    },
+    "deliverables/BadAppleERB_79x24_timeline_source.zip": {
+      "pass": true,
+      "bytes": 27748223,
+      "sha256": "f0cbe59d99e7e70837b76f5f8139622d95dfd8fc8d875c8e7c963190baea337c"
+    },
+    "deliverables/BadAppleERB_79x24_timeline_verification.json": {
+      "pass": true,
+      "bytes": 29863,
+      "sha256": "e6a31c6eec0a0d0de473eeb5f05f2a5b6e76b77bec5bd23578ec4f930bc492f5"
+    },
+    "deliverables/BadAppleERB_79x24_timeline_win64_PyPy.zip": {
+      "pass": true,
+      "bytes": 42507697,
+      "sha256": "7a52686f4a814873fe87c15398f1e80a792ab2bc0909089b0308c9cdee7c1271"
+    },
+    "deliverables/release_manifest.json": {
+      "pass": true,
+      "bytes": 1055,
+      "sha256": "66edd7b2bc35e5a0602c71c2172a1f6ed63c557bc1851d3a033c63a9060afc89"
+    }
+  }
+}

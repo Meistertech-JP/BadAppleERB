@@ -1,0 +1,56 @@
+{
+  "scope": "Independent persistent-span mathematical-model decode; actual ERB execution is a separate acceptance result",
+  "model_file": "geometry_model.npz",
+  "model_sha256": "df01a5956806cd58c73a1041bfd49f10f9ee015920fdeb2515c62fe6c8aa7e18",
+  "dimensions": [
+    6573,
+    24,
+    79
+  ],
+  "decoded_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+  "independent_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+  "mismatching_frames": 0,
+  "mismatching_cells": 0,
+  "first_differences": [],
+  "tracks": {
+    "records": 259787,
+    "length_one_records": 60398,
+    "length_two_records": 47245,
+    "length_at_least_three_records": 152144,
+    "covered_samples": 2025857,
+    "samples_in_length_one_records": 60398,
+    "samples_in_length_two_records": 94490,
+    "samples_in_length_at_least_three_records": 1870969,
+    "interior_samples_between_endpoints": 1566681,
+    "longest_record": 507
+  },
+  "curves": {
+    "records": 1521928,
+    "length_one_records": 287049,
+    "length_two_records": 708881,
+    "length_at_least_three_records": 525998,
+    "covered_samples": 6077571,
+    "samples_in_length_one_records": 287049,
+    "samples_in_length_two_records": 1417762,
+    "samples_in_length_at_least_three_records": 4372760,
+    "interior_samples_between_endpoints": 3320764,
+    "longest_record": 503
+  },
+  "varying_curves": {
+    "records": 883735,
+    "length_one_records": 0,
+    "length_two_records": 594736,
+    "length_at_least_three_records": 288999,
+    "covered_samples": 3025092,
+    "samples_in_length_one_records": 0,
+    "samples_in_length_two_records": 1189472,
+    "samples_in_length_at_least_three_records": 1835620,
+    "interior_samples_between_endpoints": 1257622,
+    "longest_record": 492
+  },
+  "total_live_track_frame_samples": 2025857,
+  "maximum_simultaneously_live_tracks": 1315,
+  "all_birth_death_events_processed": true,
+  "all_linked_list_ordering_coverage_range_and_arithmetic_invariants_pass": true,
+  "pass": true
+}

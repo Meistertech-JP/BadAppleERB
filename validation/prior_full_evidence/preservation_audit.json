@@ -1,0 +1,48 @@
+{
+  "pass": true,
+  "baseline_files_byte_identical": true,
+  "baseline_file_count": 21,
+  "baseline_missing_or_changed": [],
+  "baseline_unexpected_files": [],
+  "shared_renderer_and_sequential_entry_executable_lines_unchanged": {
+    "BA_LOAD": true,
+    "BA_RESET": true,
+    "BA_EVENTS": true,
+    "BA_RENDER": true,
+    "BA_PRESENT": true,
+    "BA_RUN": true,
+    "BA_PLAY": true,
+    "BA_BENCH": true,
+    "BA_VERIFY": true
+  },
+  "numerical_payload_and_engine_identity": {
+    "ERB/GEOMETRY.ERH": {
+      "equal": true,
+      "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+    },
+    "PyEmuera.pyz": {
+      "equal": true,
+      "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+    },
+    "txt00.txt": {
+      "equal": true,
+      "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+    },
+    "txt01.txt": {
+      "equal": true,
+      "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+    },
+    "txt02.txt": {
+      "equal": true,
+      "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+    },
+    "txt03.txt": {
+      "equal": true,
+      "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+    },
+    "txt04.txt": {
+      "equal": true,
+      "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+    }
+  }
+}

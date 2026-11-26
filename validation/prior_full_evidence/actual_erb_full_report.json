@@ -1,0 +1,23 @@
+{
+  "scope": "Actual ERB-generated gray cells against an independently decoded source video; not optical font identity or real-time timing acceptance",
+  "width": 79,
+  "height": 24,
+  "expected_frames": 6573,
+  "observed_frames": 6573,
+  "complete": true,
+  "done_marker_present": true,
+  "reference_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+  "actual_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+  "mismatching_frames": 0,
+  "mismatching_cells": 0,
+  "first_differences": [],
+  "structural_error": null,
+  "startup_lines_before_first_marker": [
+    "Now Loading..."
+  ],
+  "pass": true,
+  "source_video_sha256": "9ca50d481a3e773a77f729ef7fcab3e1fe14cb3745eb3c97f6af72cccc3b7f7e",
+  "trace_file_sha256": "ef4877bfe40dc7883e8e3d2d38d6a1e37b04bff84a59edf5bc2a4f11620bc8d4",
+  "reference_filter": "scale=79:24:flags=area:in_range=tv:out_range=full:in_color_matrix=bt709:out_color_matrix=bt709,format=gray",
+  "ffmpeg_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+}

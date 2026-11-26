@@ -1,0 +1,49 @@
+{
+  "pass": true,
+  "cases": [
+    {
+      "case": "genuine_short_capture",
+      "expected_pass": true,
+      "observed_pass": true,
+      "correct": true
+    },
+    {
+      "case": "middle_visible_cell_corruption",
+      "expected_pass": false,
+      "observed_pass": false,
+      "correct": true,
+      "clock_errors": [],
+      "image_errors": 17
+    },
+    {
+      "case": "wrong_elapsed_clock_record",
+      "expected_pass": false,
+      "observed_pass": false,
+      "correct": true,
+      "clock_errors": [
+        "Invalid time/frame range at record 45",
+        "Source frame 45 does not equal floor(1809*30/1000)"
+      ],
+      "image_errors": 0
+    },
+    {
+      "case": "missing_selected_frame_record",
+      "expected_pass": false,
+      "observed_pass": false,
+      "correct": true,
+      "clock_errors": [
+        "Rendered/skipped counts do not cover the complete timeline exactly"
+      ],
+      "image_errors": 1
+    },
+    {
+      "case": "truncated_audit_end_marker",
+      "expected_pass": false,
+      "observed_pass": false,
+      "correct": true,
+      "framing_error": "Complete post-movie audit markers are absent"
+    }
+  ],
+  "source_capture_sha256": "ac3727723e8542b78fa16770124a90e28169b53b4a98b86e604cec7c20678803",
+  "scope": "Targeted rejection checks using actual four-second capture; mutated transport hashes are recomputed."
+}

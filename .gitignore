@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+/.venv/
+/.pytest_cache/
+/build/
+/rebuild/
+/deliverables/
+/upstream/
+/runtime/pypy/
+/runtime/logs/
+/runtime/.pyemuera/
+/test_runtime*/

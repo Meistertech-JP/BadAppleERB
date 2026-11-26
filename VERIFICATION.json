@@ -1,0 +1,1365 @@
+{
+  "title": "BadAppleERB 79x24 — AA menu, elapsed-time and all-frame playback",
+  "date": "2026-11-26",
+  "pass": true,
+  "revision": "github-public-release-1",
+  "runtime_revision": "windows-utf8-startup-1",
+  "publication_notice": "CREDITS.md records original-work attribution and license scope. Recorded playback and UTF-8 startup checks retain their original evidence and hashes.",
+  "windows_console_utf8": {
+    "pass": true,
+    "scope": "UTF-8 standard streams and console-code-page lifecycle, Windows launcher dispatch, and actual interpreter menu rendering",
+    "invocation": "python -B console_utf8.py PyEmuera.pyz . [engine arguments]",
+    "runtime_files": {
+      "console_utf8.py": {
+        "bytes": 4385,
+        "sha256": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a"
+      },
+      "BadAppleERB.cmd": {
+        "bytes": 717,
+        "sha256": "4f4886a94d673634f20e1c5b8548a605245c2c7808ebb0a5e04169253682c0ca"
+      }
+    },
+    "runtime_file_sha256": {
+      "console_utf8.py": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a",
+      "BadAppleERB.cmd": "4f4886a94d673634f20e1c5b8548a605245c2c7808ebb0a5e04169253682c0ca"
+    },
+    "evidence_matches_frozen_bootstrap": true,
+    "code_page_lifecycle": {
+      "method": "Controlled API responses exercise input/output code-page setup and conditional restoration",
+      "input_and_output_snapshotted_separately": true,
+      "nonzero_code_pages_set_to": 65001,
+      "zero_code_page_requires_no_console_mutation": true,
+      "stream_flush_precedes_restoration": true,
+      "original_exception_and_system_exit_preserved": true,
+      "test_count": 11,
+      "cases": [
+        "test_cleanup_error_does_not_replace_entry_failure",
+        "test_cleanup_failure_is_reported_after_normal_return",
+        "test_different_original_input_and_output_pages",
+        "test_entry_exceptions_and_exit_codes_are_preserved",
+        "test_flush_failure_still_restores_pages_and_keeps_exit",
+        "test_interrupt_immediately_after_set_is_restored",
+        "test_later_external_page_change_is_kept",
+        "test_no_console_and_already_utf8_need_no_set_calls",
+        "test_partial_setup_failure_rolls_back_completed_change",
+        "test_standard_pages_streams_arguments_and_return_value",
+        "test_zero_input_page_keeps_output_independent"
+      ],
+      "report": "validation/console_utf8_tests.json",
+      "report_sha256": "f76ceef36c6aca3fc14de33536c9a5b4c32f6aae0f0afb3607e4f68336eb6076"
+    },
+    "launcher": {
+      "method": "Static dispatch and exit-code checks",
+      "checks": {
+        "all_interpreter_branches_use_bootstrap": true,
+        "python_utf8_environment": true,
+        "arguments_forwarded": true,
+        "engine_exit_code_saved": true,
+        "engine_exit_code_returned": true,
+        "diagnostic_path_kept_out_of_picture": true
+      }
+    },
+    "menu_smoke": {
+      "method": "Actual bundled interpreter, 80x25 PTY, inherited cp932 stream encoding, menu then choice0",
+      "report": "validation/console_utf8_smoke.json",
+      "report_sha256": "93d7f0aa8111dab76b511c24afd239a0d8f5598e590693f522b82fab77638c03",
+      "command": [
+        "pypy3",
+        "-B",
+        "runtime/console_utf8.py",
+        "runtime/PyEmuera.pyz",
+        "runtime"
+      ],
+      "initial_environment": {
+        "PYTHONIOENCODING": "cp932",
+        "PYTHONUTF8": "0"
+      },
+      "stdout_decodes_as_strict_utf8": true,
+      "rgb_escape_sequences_present": true,
+      "japanese_menu_and_colors_match_accepted_cells": true,
+      "exit_code": 0,
+      "movie_playback_performed": false,
+      "unexpected_stderr": []
+    },
+    "movie_payload_identity": {
+      "reference": "validation/menu_acceptance.json",
+      "files": {
+        "CSV/GameBase.csv": {
+          "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8",
+          "matches_reference": true
+        },
+        "ERB/GEOMETRY.ERH": {
+          "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d",
+          "matches_reference": true
+        },
+        "ERB/PLAYER.ERB": {
+          "sha256": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1",
+          "matches_reference": true
+        },
+        "ERB/PLAYER.ERH": {
+          "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc",
+          "matches_reference": true
+        },
+        "PyEmuera.pyz": {
+          "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35",
+          "matches_reference": true
+        },
+        "txt00.txt": {
+          "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449",
+          "matches_reference": true
+        },
+        "txt01.txt": {
+          "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3",
+          "matches_reference": true
+        },
+        "txt02.txt": {
+          "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908",
+          "matches_reference": true
+        },
+        "txt03.txt": {
+          "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff",
+          "matches_reference": true
+        },
+        "txt04.txt": {
+          "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a",
+          "matches_reference": true
+        }
+      }
+    }
+  },
+  "single_erb_script": "ERB/PLAYER.ERB",
+  "default_entry": "SYSTEM_TITLE -> BA_MENU",
+  "choices": {
+    "1": "BA_REALTIME",
+    "2": "BA_PLAY",
+    "0": "QUIT"
+  },
+  "return_to_menu_after_playback": true,
+  "new_functions": [
+    "BA_MENU",
+    "BA_MENU_ART",
+    "BA_MENU_DRAW"
+  ],
+  "existing_function_instructions_unchanged": {
+    "BA_INIT": true,
+    "BA_LOAD": true,
+    "BA_RESET": true,
+    "BA_EVENTS": true,
+    "BA_RENDER": true,
+    "BA_PRESENT": true,
+    "BA_PLAY": true,
+    "BA_BENCH": true,
+    "BA_RUN": true,
+    "BA_VERIFY": true,
+    "BA_REALTIME": true,
+    "BA_REALTIME_AUDIT": true,
+    "BA_REALTIME_AUDIT_SHORT": true,
+    "BA_RUN_REALTIME": true,
+    "BA_VERIFY_JUMPS": true,
+    "BA_VERIFY_JUMP_SMOKE": true,
+    "BA_TRACE_ONE": true
+  },
+  "menu_acceptance": {
+    "pass": true,
+    "scope": "Unified menu acceptance in an 80x25 terminal; real playback, menu return, and restart tested in an isolated 120-frame copy; full-film evidence paired with preserved function bodies and numerical data",
+    "production_runtime": "runtime",
+    "runtime_files": {
+      "CSV/GameBase.csv": {
+        "bytes": 230,
+        "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8"
+      },
+      "ERB/GEOMETRY.ERH": {
+        "bytes": 975830,
+        "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+      },
+      "ERB/PLAYER.ERB": {
+        "bytes": 18762,
+        "sha256": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1"
+      },
+      "ERB/PLAYER.ERH": {
+        "bytes": 1554,
+        "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+      },
+      "PyEmuera.pyz": {
+        "bytes": 668438,
+        "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+      },
+      "txt00.txt": {
+        "bytes": 2906994,
+        "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+      },
+      "txt01.txt": {
+        "bytes": 2916540,
+        "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+      },
+      "txt02.txt": {
+        "bytes": 5464257,
+        "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+      },
+      "txt03.txt": {
+        "bytes": 2772972,
+        "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+      },
+      "txt04.txt": {
+        "bytes": 1291172,
+        "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+      }
+    },
+    "all_test_reports_match_current_runtime_hashes": false,
+    "all_test_reports_match_release_or_verified_source_bridge": true,
+    "release_source_relation": {
+      "pass": true,
+      "all_runtime_hashes_identical": false,
+      "bridge_used": true,
+      "report": "validation/release_source_bridge.json",
+      "report_sha256": "c1d347c192601e30aad311c8d1cd7881920566eb16c9c568239ff7210d59d898",
+      "tested_player_sha256": "8e33ec1cfbc35cb5c287f664f39a63c04a6876bdf974ef76e2dea6eea3e38ea6",
+      "release_player_sha256": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1",
+      "checks": {
+        "release_player_hash_matches_receipt": true,
+        "receipt_records_comment_only_change": true,
+        "tested_and_release_function_bodies_match_actual_release": true,
+        "tested_and_release_executable_lines_match_actual_release": true
+      },
+      "test_reports_matched": {
+        "production_cpython": true,
+        "production_pypy": true,
+        "branches_pypy_corrected": true
+      },
+      "scope": "Recorded test source hashes are retained; release source differs by one section comment and preserves every function body and executable line"
+    },
+    "single_erb_file": true,
+    "function_preservation": {
+      "pass": true,
+      "count": 17,
+      "report": "validation/menu_function_preservation.json",
+      "report_sha256": "aefaa49bd28342b4c8cdbc3598a9a898c3b64f56493585d04c34b5c041e3798c",
+      "definition": "Exact bytes from @definition through the final executable statement, excluding only following blank lines and section comments"
+    },
+    "production_menu_tests": {
+      "production_cpython": {
+        "pass": true,
+        "command": [
+          "python3",
+          "-B",
+          "runtime/PyEmuera.pyz",
+          "runtime"
+        ],
+        "production_source_tested_without_loop_modification": true,
+        "tested_player_sha256": "8e33ec1cfbc35cb5c287f664f39a63c04a6876bdf974ef76e2dea6eea3e38ea6",
+        "invalid_inputs": [
+          {
+            "input": "9",
+            "re_prompted": true
+          },
+          {
+            "input": "abc",
+            "re_prompted": true
+          },
+          {
+            "input": "",
+            "re_prompted": true
+          }
+        ],
+        "choice_0_exited": true,
+        "layout_states": [
+          {
+            "stage": "initial",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          },
+          {
+            "stage": "invalid_input",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          },
+          {
+            "stage": "invalid_input",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          },
+          {
+            "stage": "invalid_input",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          }
+        ],
+        "report": "validation/production_cpython/report.json",
+        "report_sha256": "91c5e7cdb11d4f8e622f10533d50aa2328809640bd3593bc947f2ff480151ef9",
+        "ansi_capture_sha256": "8aa554c870f0ecd37880b6d08fd088a97cf995d6b30de9a8077886aa9fe625a4"
+      },
+      "production_pypy": {
+        "pass": true,
+        "command": [
+          "pypy/bin/pypy3",
+          "-B",
+          "runtime/PyEmuera.pyz",
+          "runtime"
+        ],
+        "production_source_tested_without_loop_modification": true,
+        "tested_player_sha256": "8e33ec1cfbc35cb5c287f664f39a63c04a6876bdf974ef76e2dea6eea3e38ea6",
+        "invalid_inputs": [
+          {
+            "input": "9",
+            "re_prompted": true
+          },
+          {
+            "input": "abc",
+            "re_prompted": true
+          },
+          {
+            "input": "",
+            "re_prompted": true
+          }
+        ],
+        "choice_0_exited": true,
+        "layout_states": [
+          {
+            "stage": "initial",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          },
+          {
+            "stage": "invalid_input",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          },
+          {
+            "stage": "invalid_input",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          },
+          {
+            "stage": "invalid_input",
+            "pass": true,
+            "max_row": 24,
+            "max_column": 76,
+            "cursor": [
+              2,
+              23
+            ]
+          }
+        ],
+        "report": "validation/production_pypy/report.json",
+        "report_sha256": "7a292fe41b9185a313a795375984e4050cb0f8ddb58623b6558d316a4d8e2684",
+        "ansi_capture_sha256": "8aa554c870f0ecd37880b6d08fd088a97cf995d6b30de9a8077886aa9fe625a4"
+      }
+    },
+    "viewport": {
+      "terminal_columns": 80,
+      "terminal_rows": 25,
+      "max_nonblank_column": 76,
+      "max_nonblank_row": 24,
+      "host_input_prompt_row": 24,
+      "reserved_row_25_blank": true,
+      "reserved_column_80_blank": true,
+      "all_menu_states_fit": true,
+      "production_cpython_and_pypy_cell_states_equal": true,
+      "production_cpython_and_pypy_ansi_output_equal": true
+    },
+    "mode_route_return_and_restart": {
+      "pass": true,
+      "input_sequence": [
+        "1",
+        "2",
+        "1",
+        "0"
+      ],
+      "route_mapping": {
+        "1": "BA_REALTIME",
+        "2": "BA_PLAY",
+        "0": "RETURN from BA_MENU then QUIT"
+      },
+      "movies": [
+        {
+          "pass": true,
+          "expected_render_calls": 112,
+          "first_frame": 0,
+          "last_frame": 119,
+          "expected_distinct_images": 71,
+          "matched_distinct_images": 71,
+          "mismatching_images": 0,
+          "errors": [],
+          "selection": "1",
+          "sequence": 0,
+          "footer_present": true,
+          "clock_choice_pass": true,
+          "return_menu": true,
+          "timeline_summary": [
+            120,
+            112,
+            8,
+            4000,
+            119
+          ],
+          "conflicting_frame_records": []
+        },
+        {
+          "pass": true,
+          "expected_render_calls": 120,
+          "first_frame": 0,
+          "last_frame": 119,
+          "expected_distinct_images": 78,
+          "matched_distinct_images": 78,
+          "mismatching_images": 0,
+          "errors": [],
+          "selection": "2",
+          "sequence": 1,
+          "footer_present": true,
+          "clock_choice_pass": true,
+          "return_menu": true,
+          "timeline_summary": null,
+          "conflicting_frame_records": []
+        },
+        {
+          "pass": true,
+          "expected_render_calls": 120,
+          "first_frame": 0,
+          "last_frame": 119,
+          "expected_distinct_images": 78,
+          "matched_distinct_images": 78,
+          "mismatching_images": 0,
+          "errors": [],
+          "selection": "1",
+          "sequence": 2,
+          "footer_present": true,
+          "clock_choice_pass": true,
+          "return_menu": true,
+          "timeline_summary": [
+            120,
+            120,
+            0,
+            4000,
+            119
+          ],
+          "conflicting_frame_records": []
+        }
+      ],
+      "second_and_third_plays_begin_at_frame_zero": true,
+      "second_realtime_clock_restarted_at_zero": true,
+      "choice_0_exited": true,
+      "report": "validation/branches_pypy_corrected/report.json",
+      "report_sha256": "22ba621d68959fe847c43bec1f162ff1c257cd389ff0ce58e16f697c900b8469"
+    },
+    "short_test_copy_scope": {
+      "scope": "Isolated 120-frame real-loop test; not a full 6573-frame movie run",
+      "source_runtime": "runtime",
+      "test_runtime": "test_runtime_short_corrected",
+      "menu_functions_byte_identical": true,
+      "unchanged_functions": {
+        "SYSTEM_TITLE": true,
+        "BA_INIT": true,
+        "BA_LOAD": true,
+        "BA_RESET": true,
+        "BA_EVENTS": true,
+        "BA_RENDER": true,
+        "BA_PRESENT": true,
+        "BA_PLAY": true,
+        "BA_BENCH": true,
+        "BA_VERIFY": true,
+        "BA_REALTIME_AUDIT": true,
+        "BA_REALTIME_AUDIT_SHORT": true,
+        "BA_RUN_REALTIME": true,
+        "BA_VERIFY_JUMPS": true,
+        "BA_VERIFY_JUMP_SMOKE": true,
+        "BA_TRACE_ONE": true,
+        "BA_MENU": true,
+        "BA_MENU_DRAW": true,
+        "BA_MENU_ART": true
+      },
+      "changes": [
+        "BA_REALTIME passes 120 to the unchanged BA_RUN_REALTIME and emits audit after playback",
+        "BA_RUN iterates 0..119, waits for 120/30 seconds, reports 120; its actual sequential render/present body is unchanged"
+      ],
+      "full_data_frame_constant_unchanged": true,
+      "diff": "--- production PLAYER.ERB\n+++ isolated short-test PLAYER.ERB\n@@ -332,7 +332,7 @@\n SETCOLOR 255, 255, 255\n SETBGCOLOR 0, 0, 0\n BA_STARTMS = GETMILLISECOND()\n-FOR LF, 0, BA_FRAMES\n+FOR LF, 0, 120\n     LTIME = GETMILLISECOND()\n     CALL BA_RENDER, LF\n     BA_CALCMS += GETMILLISECOND() - LTIME\n@@ -354,7 +354,7 @@\n     ENDIF\n NEXT\n IF LPACED\n-    LW = BA_STARTMS + BA_FRAMES * 1000 / BA_FPS - GETMILLISECOND()\n+    LW = BA_STARTMS + 120 * 1000 / BA_FPS - GETMILLISECOND()\n     SIF LW > 0\n         AWAIT LW\n ENDIF\n@@ -362,7 +362,7 @@\n CLEARLINE BA_SHOWN\n BA_SHOWN = 0\n REDRAW 3\n-PRINTFORML Completed {BA_FRAMES} / {BA_FRAMES} frames. Elapsed: {BA_ELAPSEDMS} ms.\n+PRINTFORML Completed {120} / {120} frames. Elapsed: {BA_ELAPSEDMS} ms.\n PRINTFORML Calculation and row construction: {BA_CALCMS} ms; presentation: {BA_PRESENTMS} ms.\n SIF LPACED\n     PRINTFORML Maximum lateness: {BA_MAXLATE} ms; late by over one frame: {BA_LATEFRAMES}.\n@@ -396,8 +396,8 @@\n ; and the curve chains of spans alive at the selected target.\n ; GETMILLISECOND is the engine's wall-clock query, not a monotonic clock.\n @BA_REALTIME\n-BA_RT_AUDIT = 0\n-CALL BA_RUN_REALTIME, BA_FRAMES\n+BA_RT_AUDIT = 1\n+CALL BA_RUN_REALTIME, 120\n RETURN RESULT\n \n ; Identical movie loop; only the post-movie diagnostic emission differs.\n"
+    },
+    "prior_full_movie_evidence": {
+      "new_full_6573_frame_run_performed": false,
+      "coverage_basis": "All 17 preexisting movie function bodies, the engine, headers, and numerical data match the recorded full-film validation inputs.",
+      "evidence": [
+        {
+          "file": "validation/prior_full_evidence/actual_erb_full_report.json",
+          "sha256": "ad7c8e53923282173aaad2e163c02f6917a5a2d027fd0afff00d840cd9fc9348",
+          "pass": true,
+          "scope": "Actual ERB-generated gray cells against an independently decoded source video; not optical font identity or real-time timing acceptance",
+          "key_results": {
+            "scope": "Actual ERB-generated gray cells against an independently decoded source video; not optical font identity or real-time timing acceptance",
+            "width": 79,
+            "height": 24,
+            "expected_frames": 6573,
+            "observed_frames": 6573,
+            "complete": true,
+            "done_marker_present": true,
+            "reference_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+            "actual_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+            "mismatching_frames": 0,
+            "mismatching_cells": 0,
+            "structural_error": null,
+            "pass": true,
+            "source_video_sha256": "9ca50d481a3e773a77f729ef7fcab3e1fe14cb3745eb3c97f6af72cccc3b7f7e",
+            "trace_file_sha256": "ef4877bfe40dc7883e8e3d2d38d6a1e37b04bff84a59edf5bc2a4f11620bc8d4",
+            "reference_filter": "scale=79:24:flags=area:in_range=tv:out_range=full:in_color_matrix=bt709:out_color_matrix=bt709,format=gray",
+            "ffmpeg_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "file": "validation/prior_full_evidence/cpython_full_audit.json",
+          "sha256": "6d12a21320698c001674909b3387e977381f66b332eb9df2fbf255da3a1d7bbc",
+          "pass": true,
+          "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+          "key_results": {
+            "pass": true,
+            "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+            "source_frame_count": 6573,
+            "source_rate": "30/1",
+            "target_duration_ms": 219100,
+            "rendered_frame_count": 1916,
+            "skipped_frame_count": 4657,
+            "clock_rule_all_records_pass": true,
+            "first_frame_index": 0,
+            "final_frame_index": 6572,
+            "forced_final_count": 0,
+            "reported_movie_duration_ms": 219100,
+            "reported_overrun_ms": 0,
+            "end_overrun_acceptance_bound_ms": 2607,
+            "mean_rendered_frames_per_second": 8.744865358283889,
+            "maximum_selection_to_finish_ms": 2507,
+            "max_calculation_ms": 2500,
+            "max_presentation_ms": 47,
+            "last_calculation_ms": 3,
+            "expected_distinct_visible_states": 1827,
+            "matched_distinct_visible_states": 1827,
+            "actual_image_sequence_pass": true,
+            "image_sequence_error_count": 0,
+            "expected_distinct_sequence_sha256": "6f084199dd056a02f33162bd72a5822bdbdd6575217ccf2d2d0129c3e0cf32cc",
+            "actual_distinct_sequence_sha256": "6f084199dd056a02f33162bd72a5822bdbdd6575217ccf2d2d0129c3e0cf32cc",
+            "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+            "active_runtime_files_unchanged": true,
+            "unchanged_engine_sha256_pass": true,
+            "capture_receipt_pass": true,
+            "receive_timestamp_receipt_pass": true,
+            "capture_wall_seconds_including_loading_and_audit_dump": 222.036073688,
+            "capture_sha256": "13c94638d579307f836a604387d5fdc8f76cbb2ad61c31677087c896d1480658",
+            "capture_bytes": 21188264,
+            "clock_limitations": "ERB GETMILLISECOND uses wall time; this run is cross-checked with host monotonic receive observations. No system-clock adjustment is simulated."
+          }
+        },
+        {
+          "file": "validation/prior_full_evidence/pypy_full_audit.json",
+          "sha256": "c138ff648ae9944a1ef53112443b3886296d1acbb14ac90b4f737107fed78e3d",
+          "pass": true,
+          "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+          "key_results": {
+            "pass": true,
+            "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+            "source_frame_count": 6573,
+            "source_rate": "30/1",
+            "target_duration_ms": 219100,
+            "rendered_frame_count": 6153,
+            "skipped_frame_count": 420,
+            "clock_rule_all_records_pass": true,
+            "first_frame_index": 0,
+            "final_frame_index": 6572,
+            "forced_final_count": 0,
+            "reported_movie_duration_ms": 219101,
+            "reported_overrun_ms": 1,
+            "end_overrun_acceptance_bound_ms": 283,
+            "mean_rendered_frames_per_second": 28.08293891858093,
+            "maximum_selection_to_finish_ms": 183,
+            "max_calculation_ms": 175,
+            "max_presentation_ms": 45,
+            "last_calculation_ms": 1,
+            "expected_distinct_visible_states": 6011,
+            "matched_distinct_visible_states": 6011,
+            "actual_image_sequence_pass": true,
+            "image_sequence_error_count": 0,
+            "expected_distinct_sequence_sha256": "cf84be0d4c062e8a8dbae2e125b48964fdac6916b27cea669cd238289abc90a4",
+            "actual_distinct_sequence_sha256": "cf84be0d4c062e8a8dbae2e125b48964fdac6916b27cea669cd238289abc90a4",
+            "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+            "active_runtime_files_unchanged": true,
+            "unchanged_engine_sha256_pass": true,
+            "capture_receipt_pass": true,
+            "receive_timestamp_receipt_pass": true,
+            "capture_wall_seconds_including_loading_and_audit_dump": 222.732044052,
+            "capture_sha256": "577dda496797db58acc0d1ac975ce11d4f9a5fa7b32a6945c86930dea05637f5",
+            "capture_bytes": 81993165,
+            "clock_limitations": "ERB GETMILLISECOND uses wall time; this run is cross-checked with host monotonic receive observations. No system-clock adjustment is simulated."
+          }
+        },
+        {
+          "file": "validation/prior_full_evidence/pypy_seek_audit.json",
+          "sha256": "731c1b3836036f23a5e9485da9a4cb74830af3da6eac79555d6f4778a19c9faf",
+          "pass": true,
+          "scope": "Actual unchanged-engine ERB forward, long, backward, duplicate, restart and endpoint seeks against independent reference",
+          "key_results": {
+            "pass": true,
+            "scope": "Actual unchanged-engine ERB forward, long, backward, duplicate, restart and endpoint seeks against independent reference",
+            "expected_records": 35,
+            "observed_records": 35,
+            "gray_cells_compared": 66360,
+            "mismatching_records": 0,
+            "mismatching_cells": 0,
+            "done_marker_present": true,
+            "expected_seek_gray_sha256": "d86fe6b3d0509daa6ccbe2b4133ee6035c9b2d483aea12ecfd1540885925be7c",
+            "actual_seek_gray_sha256": "d86fe6b3d0509daa6ccbe2b4133ee6035c9b2d483aea12ecfd1540885925be7c",
+            "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+            "trace_sha256": "8f178345799ad00e2e119d41a47960d8b45a3f78bd9cb5a8a2c150060413a444"
+          }
+        },
+        {
+          "file": "validation/prior_full_evidence/preservation_audit.json",
+          "sha256": "3ee5b6af95a6dfd175cdcbe2ac31e687e51f8789787b5c7b84152790d5faa840",
+          "pass": true,
+          "scope": "Existing renderer and prior release preservation",
+          "key_results": {
+            "pass": true,
+            "baseline_files_byte_identical": true,
+            "baseline_file_count": 21
+          }
+        }
+      ]
+    },
+    "artifacts": {
+      "production_menu_png": "validation/production_pypy/menu_initial.png",
+      "production_menu_png_sha256": "2766cb294ee8d060f5e1687f773049a01318611c97b032b545e728db3575979e",
+      "production_menu_cells_json": "validation/production_pypy/menu_initial.json",
+      "production_menu_cells_sha256": "8d0187678c1922f3ca19e6a5b6d6e672340da238ed6e93d7cc8343ae837019c0",
+      "preview_scope": "Captured terminal character/color state rendered with fixed fonts",
+      "preview_font_files": [
+        "DejaVuSansMono.ttf (20 px)",
+        "NotoSansCJK-Regular.ttc (22 px)"
+      ],
+      "preview_cell_pixels": [
+        12,
+        25
+      ],
+      "preview_image_pixels": [
+        960,
+        625
+      ],
+      "production_stdout_ansi": "validation/production_pypy/stdout.ansi"
+    },
+    "limitations": [
+      "This is terminal-cell and RGB correctness at 79x24, not optical identity with source video pixels or a native terminal font.",
+      "Realtime mode deliberately skips elapsed source frames when drawing falls behind; it does not guarantee 30 rendered frames per second."
+    ]
+  },
+  "release_gate": {
+    "pass": true,
+    "menu_acceptance": "validation/menu_acceptance.json",
+    "menu_acceptance_sha256": "d8e24a74da1e5a67ca8d5e71db9854816175e1ec2e625648ff7c5eace0e82a9a",
+    "runtime_file_sha256": {
+      "BadAppleERB.cmd": "4f4886a94d673634f20e1c5b8548a605245c2c7808ebb0a5e04169253682c0ca",
+      "BadAppleERB_CPython.cmd": "91b11e1137648fde90bc2b60fae9902a2495d207a156d22d747f099a44e7e715",
+      "CSV/GameBase.csv": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8",
+      "ERB/GEOMETRY.ERH": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d",
+      "ERB/PLAYER.ERB": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1",
+      "ERB/PLAYER.ERH": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc",
+      "HOW_IT_WORKS_en.txt": "e0a3a05aec33fbe34f040dc5cb855668723fd3213d7e73bd0189389a82b8844a",
+      "HOW_IT_WORKS_ja.txt": "027f3ba70c1c853643bad8f4e2113384b5801ad8d4c1a85c1ead835f8f4db662",
+      "LICENSE": "76b1f6a3d9fbabd88784ba4a6d8dc454dc39527b4089bacf38273b37113d388f",
+      "PyEmuera.pyz": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35",
+      "README_en.md": "4d765589beb1d757c0b65e8c91409c79c2cae6405a3f3831c7a7ddbc95d11e97",
+      "README_ja.md": "5ad604d63ed88428fb20c3a6a9cdc85ae6209c1384065598a201207da56a175c",
+      "console_utf8.py": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a",
+      "packed_format.json": "7d1efb3ffd7a5cb87816a91f5e0a8a0ad31b054685b09e17ad0dc2cbc049efc6",
+      "run.sh": "8aa2a5501337f065faad17d55a92abb69c9dc3b3c370ca60cd4b98cee7307ce2",
+      "third_party/PyEmuera/LICENSE": "b33bbcc5a0d1ace88bfb1d3f9443337ce4b1030a68396430c53b1563203d63f0",
+      "third_party/PyEmuera/THIRD_PARTY_MS_NLS_NOTICE_ja.md": "036d37cfae2318fb0b854022acdf088343ca7adbc6e3b27bcf64595118f23c3e",
+      "third_party/PyEmuera/THIRD_PARTY_NOTICES.md": "cdb1dfe80b9ffe1defc575c280ac8bd2b82d44f6c81ad50a10671f0dbf284edb",
+      "third_party/PyEmuera/licenses/Emuera1824.txt": "ce1134568e4a9fd56d4831c37dceb82050009e90349394f3f05a03a668500a06",
+      "third_party/PyEmuera/licenses/MICROSOFT_REFERENCE_SOURCE_MIT.txt": "b5cb7ff7859e7d282d98fc43ab081b0dda5dc659dc3385cf65740c759a7e6a6c",
+      "third_party/PyEmuera/licenses/UNICODE_LICENSE_V3.txt": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+      "third_party/PyPy/BUNDLE_PROVENANCE_ja.txt": "ad5d2b80e8ce63ae8ea5e8f5247ddc49497c62e3c1aa8e66c40f1fd15cd3d65e",
+      "third_party/PyPy/bundle_provenance.json": "b5e83284164c9dffb110c1c47aa61160c2c91500285183e6e815774c50a0ce90",
+      "third_party/PyPy/downloads.json": "46f80071ece3efc6a3c8014d3881d206faed66a62f548b5a62fdcae42e83d845",
+      "third_party/PyPy/linux_upstream_manifest.json": "bb73de5c6d3483d1f3bb7b8da67e6e811f077b9a1e6eb8df98edb8aadb56cea3",
+      "third_party/PyPy/windows_upstream_manifest.json": "00e95fd00e1e65e9d2a72f48a7c57363785012f1e8175867e4e380350bc4ae10",
+      "txt00.txt": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449",
+      "txt01.txt": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3",
+      "txt02.txt": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908",
+      "txt03.txt": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff",
+      "txt04.txt": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+    },
+    "single_erb_script": "ERB/PLAYER.ERB",
+    "documentation": {
+      "README_ja.md": {
+        "bytes": 9824,
+        "sha256": "5ad604d63ed88428fb20c3a6a9cdc85ae6209c1384065598a201207da56a175c"
+      },
+      "README_en.md": {
+        "bytes": 9395,
+        "sha256": "4d765589beb1d757c0b65e8c91409c79c2cae6405a3f3831c7a7ddbc95d11e97"
+      },
+      "HOW_IT_WORKS_ja.txt": {
+        "bytes": 30563,
+        "sha256": "027f3ba70c1c853643bad8f4e2113384b5801ad8d4c1a85c1ead835f8f4db662"
+      },
+      "HOW_IT_WORKS_en.txt": {
+        "bytes": 25843,
+        "sha256": "e0a3a05aec33fbe34f040dc5cb855668723fd3213d7e73bd0189389a82b8844a"
+      }
+    },
+    "documentation_review": {
+      "japanese_and_english_readme": true,
+      "japanese_and_english_plain_text_technical_explanation": true,
+      "third_party_facing": true,
+      "implementation_and_documentation_match": true,
+      "public_text_consistency_check_pass": true
+    },
+    "source_bridge": "validation/release_source_bridge.json",
+    "preview_relative_path": "validation/production_pypy/menu_initial.png",
+    "preview_sha256": "2766cb294ee8d060f5e1687f773049a01318611c97b032b545e728db3575979e",
+    "visual_review": {
+      "pass": true,
+      "title_and_all_menu_choices_readable": true,
+      "bow_apple_hat_and_broom_visible": true,
+      "no_clipping": true,
+      "menu_with_input_fits_80x25": true,
+      "scope": "Captured terminal cells rendered with fixed fonts"
+    },
+    "prior_release_files_preserved": 36,
+    "windows_console_utf8": {
+      "pass": true,
+      "report": "validation/console_utf8_verification.json",
+      "report_sha256": "245b265f78c06bdcdfdfa338808b2120bf5aabd8e87896fa908808a99bbde703"
+    },
+    "revision": "windows-utf8-startup-1"
+  },
+  "previous_files_preserved": {
+    "pass": true,
+    "file_count": 36,
+    "scope": "Prior release files retained byte-for-byte",
+    "files": {
+      "runtime/BadAppleERB.cmd": {
+        "pass": true,
+        "bytes": 410,
+        "sha256": "ddbbdbe855876e6146a5886e3e3c07155e9a80aae5f5d80eeab45eb52e975a4a"
+      },
+      "runtime/BadAppleERB_CPython.cmd": {
+        "pass": true,
+        "bytes": 93,
+        "sha256": "91b11e1137648fde90bc2b60fae9902a2495d207a156d22d747f099a44e7e715"
+      },
+      "runtime/BadAppleERB_allframes.cmd": {
+        "pass": true,
+        "bytes": 59,
+        "sha256": "972b13cec05f4a153bcfe49aaed3ee0189bb741b46a379832ac37e296c827126"
+      },
+      "runtime/CSV/GameBase.csv": {
+        "pass": true,
+        "bytes": 230,
+        "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8"
+      },
+      "runtime/ERB/GEOMETRY.ERH": {
+        "pass": true,
+        "bytes": 975830,
+        "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+      },
+      "runtime/ERB/PLAYER.ERB": {
+        "pass": true,
+        "bytes": 15614,
+        "sha256": "5b53dc0df0fa0820c03489461984f99642ce979ef2e6d5bce3d71d23caae5571"
+      },
+      "runtime/ERB/PLAYER.ERH": {
+        "pass": true,
+        "bytes": 1554,
+        "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+      },
+      "runtime/LICENSE": {
+        "pass": true,
+        "bytes": 1071,
+        "sha256": "76b1f6a3d9fbabd88784ba4a6d8dc454dc39527b4089bacf38273b37113d388f"
+      },
+      "runtime/PyEmuera.pyz": {
+        "pass": true,
+        "bytes": 668438,
+        "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+      },
+      "runtime/README_ja.txt": {
+        "pass": true,
+        "bytes": 5738,
+        "sha256": "3c599375084d658fb917af92fc1d7752ae7557e4847ef04926643a1cce65f6fb"
+      },
+      "runtime/packed_format.json": {
+        "pass": true,
+        "bytes": 1842,
+        "sha256": "7d1efb3ffd7a5cb87816a91f5e0a8a0ad31b054685b09e17ad0dc2cbc049efc6"
+      },
+      "runtime/run.sh": {
+        "pass": true,
+        "bytes": 291,
+        "sha256": "8aa2a5501337f065faad17d55a92abb69c9dc3b3c370ca60cd4b98cee7307ce2"
+      },
+      "runtime/run_allframes.sh": {
+        "pass": true,
+        "bytes": 83,
+        "sha256": "1d1ccaba215d8cb7adf007164206d4cf056e41a76b02238f45bc341a41e2f104"
+      },
+      "runtime/third_party/PyEmuera/LICENSE": {
+        "pass": true,
+        "bytes": 1078,
+        "sha256": "b33bbcc5a0d1ace88bfb1d3f9443337ce4b1030a68396430c53b1563203d63f0"
+      },
+      "runtime/third_party/PyEmuera/THIRD_PARTY_MS_NLS_NOTICE_ja.md": {
+        "pass": true,
+        "bytes": 2743,
+        "sha256": "036d37cfae2318fb0b854022acdf088343ca7adbc6e3b27bcf64595118f23c3e"
+      },
+      "runtime/third_party/PyEmuera/THIRD_PARTY_NOTICES.md": {
+        "pass": true,
+        "bytes": 5848,
+        "sha256": "cdb1dfe80b9ffe1defc575c280ac8bd2b82d44f6c81ad50a10671f0dbf284edb"
+      },
+      "runtime/third_party/PyEmuera/licenses/Emuera1824.txt": {
+        "pass": true,
+        "bytes": 1266,
+        "sha256": "ce1134568e4a9fd56d4831c37dceb82050009e90349394f3f05a03a668500a06"
+      },
+      "runtime/third_party/PyEmuera/licenses/MICROSOFT_REFERENCE_SOURCE_MIT.txt": {
+        "pass": true,
+        "bytes": 1083,
+        "sha256": "b5cb7ff7859e7d282d98fc43ab081b0dda5dc659dc3385cf65740c759a7e6a6c"
+      },
+      "runtime/third_party/PyEmuera/licenses/UNICODE_LICENSE_V3.txt": {
+        "pass": true,
+        "bytes": 1995,
+        "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+      },
+      "runtime/third_party/PyPy/BUNDLE_PROVENANCE_ja.txt": {
+        "pass": true,
+        "bytes": 3174,
+        "sha256": "8d74fab6297df3d487929fbb38491cebc2883ed9bf67af58a387ffdc6a83449b"
+      },
+      "runtime/third_party/PyPy/bundle_provenance.json": {
+        "pass": true,
+        "bytes": 5850,
+        "sha256": "fca83fb20026050029cc1a920901f9d1fe931cf952285134df0e7791c6d20b44"
+      },
+      "runtime/third_party/PyPy/downloads.json": {
+        "pass": true,
+        "bytes": 1359,
+        "sha256": "46f80071ece3efc6a3c8014d3881d206faed66a62f548b5a62fdcae42e83d845"
+      },
+      "runtime/third_party/PyPy/engine_cli_sanity.json": {
+        "pass": true,
+        "bytes": 6052,
+        "sha256": "0d16cf7c9cf3b66889bda3b3226997df251e04b023d4882fc2da751257cd0d7f"
+      },
+      "runtime/third_party/PyPy/linux_sanity.json": {
+        "pass": true,
+        "bytes": 694,
+        "sha256": "b57c1c938e6776c27b4f1ea7c4e37930062f22e4f8a545a395d05ace3f2b3e7c"
+      },
+      "runtime/third_party/PyPy/linux_upstream_manifest.json": {
+        "pass": true,
+        "bytes": 711174,
+        "sha256": "7fe22c351179d5e6cde0ac8ea52773d82c6e519759126482895c6acb74d4e431"
+      },
+      "runtime/third_party/PyPy/windows_upstream_manifest.json": {
+        "pass": true,
+        "bytes": 704556,
+        "sha256": "397f77886c5496ad47c9b1c5fca5e07290d7b544ea80b68d015f0b1fa5ed8d18"
+      },
+      "runtime/txt00.txt": {
+        "pass": true,
+        "bytes": 2906994,
+        "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+      },
+      "runtime/txt01.txt": {
+        "pass": true,
+        "bytes": 2916540,
+        "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+      },
+      "runtime/txt02.txt": {
+        "pass": true,
+        "bytes": 5464257,
+        "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+      },
+      "runtime/txt03.txt": {
+        "pass": true,
+        "bytes": 2772972,
+        "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+      },
+      "runtime/txt04.txt": {
+        "pass": true,
+        "bytes": 1291172,
+        "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+      },
+      "deliverables/BadAppleERB_79x24_timeline_linux64_PyPy.tar.gz": {
+        "pass": true,
+        "bytes": 45121688,
+        "sha256": "510516cbbdcc6c053dca10c03e5e6fa1bfcef134be857f6bf9f57bee80b41f28"
+      },
+      "deliverables/BadAppleERB_79x24_timeline_source.zip": {
+        "pass": true,
+        "bytes": 27748223,
+        "sha256": "f0cbe59d99e7e70837b76f5f8139622d95dfd8fc8d875c8e7c963190baea337c"
+      },
+      "deliverables/BadAppleERB_79x24_timeline_verification.json": {
+        "pass": true,
+        "bytes": 29863,
+        "sha256": "e6a31c6eec0a0d0de473eeb5f05f2a5b6e76b77bec5bd23578ec4f930bc492f5"
+      },
+      "deliverables/BadAppleERB_79x24_timeline_win64_PyPy.zip": {
+        "pass": true,
+        "bytes": 42507697,
+        "sha256": "7a52686f4a814873fe87c15398f1e80a792ab2bc0909089b0308c9cdee7c1271"
+      },
+      "deliverables/release_manifest.json": {
+        "pass": true,
+        "bytes": 1055,
+        "sha256": "66edd7b2bc35e5a0602c71c2172a1f6ed63c557bc1851d3a033c63a9060afc89"
+      }
+    }
+  },
+  "art": {
+    "rows": 13,
+    "columns": 73,
+    "charset": "PrintableASCII U+0020..U+007E",
+    "title_separate": true,
+    "characters": " #',-./<=>\\_`|",
+    "sha256": "b01319c32627bc46451c7bce19f14611f7c3574bb0def72f249ee1a364c525cf",
+    "design": "Hand-authored ASCII silhouettes: bow-wearing figure on the left, floating apple in the center, and a pointed-hat figure riding a broom on the right. Motifs from the Bad Apple!! shadow PV.",
+    "movie_rendering_unchanged": true
+  },
+  "prior_acceptance_scope": "Recorded full-film numerical and timing results cover identical playback functions, data and engine. Menu input is checked with the production playback limits; mode routing and return use isolated 120-frame sequences with the same menu functions.",
+  "prior_full_logical_trace": {
+    "scope": "Actual ERB-generated gray cells against an independently decoded source video; not optical font identity or real-time timing acceptance",
+    "width": 79,
+    "height": 24,
+    "expected_frames": 6573,
+    "observed_frames": 6573,
+    "complete": true,
+    "done_marker_present": true,
+    "reference_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+    "actual_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+    "mismatching_frames": 0,
+    "mismatching_cells": 0,
+    "first_differences": [],
+    "structural_error": null,
+    "startup_lines_before_first_marker": [
+      "Now Loading..."
+    ],
+    "pass": true,
+    "source_video_sha256": "9ca50d481a3e773a77f729ef7fcab3e1fe14cb3745eb3c97f6af72cccc3b7f7e",
+    "trace_file_sha256": "ef4877bfe40dc7883e8e3d2d38d6a1e37b04bff84a59edf5bc2a4f11620bc8d4",
+    "reference_filter": "scale=79:24:flags=area:in_range=tv:out_range=full:in_color_matrix=bt709:out_color_matrix=bt709,format=gray",
+    "ffmpeg_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "prior_timeline_runs": {
+    "cpython": {
+      "pass": true,
+      "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+      "source_frame_count": 6573,
+      "source_rate": "30/1",
+      "target_duration_ms": 219100,
+      "rendered_frame_count": 1916,
+      "skipped_frame_count": 4657,
+      "clock_rule_all_records_pass": true,
+      "clock_and_summary_errors": [],
+      "first_frame_index": 0,
+      "final_frame_index": 6572,
+      "forced_final_count": 0,
+      "reported_movie_duration_ms": 219100,
+      "reported_overrun_ms": 0,
+      "end_overrun_acceptance_bound_ms": 2607,
+      "mean_rendered_frames_per_second": 8.744865358283889,
+      "maximum_selection_to_finish_ms": 2507,
+      "max_calculation_ms": 2500,
+      "max_presentation_ms": 47,
+      "last_calculation_ms": 3,
+      "expected_distinct_visible_states": 1827,
+      "matched_distinct_visible_states": 1827,
+      "actual_image_sequence_pass": true,
+      "image_sequence_error_count": 0,
+      "image_sequence_errors": [],
+      "unsupported_ansi": [],
+      "expected_distinct_sequence_sha256": "6f084199dd056a02f33162bd72a5822bdbdd6575217ccf2d2d0129c3e0cf32cc",
+      "actual_distinct_sequence_sha256": "6f084199dd056a02f33162bd72a5822bdbdd6575217ccf2d2d0129c3e0cf32cc",
+      "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+      "active_runtime_files_unchanged": true,
+      "unchanged_engine_sha256_pass": true,
+      "capture_receipt_pass": true,
+      "receive_timestamp_receipt_pass": true,
+      "host_monotonic_observations": {
+        "first_picture_received_ms_from_launch": 2440.927161,
+        "audit_begin_received_ms_from_launch": 221521.398916,
+        "estimated_movie_duration_ms": 219100.471755,
+        "difference_from_reported_duration_ms": 0.47175500000594184,
+        "present_record_origin_estimate_spread_ms": 6.82913600000029,
+        "scope": "Host monotonic receive observations. Origin inferred by subtracting first recorded presentation duration; not physical refresh timestamps."
+      },
+      "capture_wall_seconds_including_loading_and_audit_dump": 222.036073688,
+      "capture_sha256": "13c94638d579307f836a604387d5fdc8f76cbb2ad61c31677087c896d1480658",
+      "capture_bytes": 21188264,
+      "clock_limitations": "ERB GETMILLISECOND uses wall time; this run is cross-checked with host monotonic receive observations. No system-clock adjustment is simulated."
+    },
+    "pypy": {
+      "pass": true,
+      "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+      "source_frame_count": 6573,
+      "source_rate": "30/1",
+      "target_duration_ms": 219100,
+      "rendered_frame_count": 6153,
+      "skipped_frame_count": 420,
+      "clock_rule_all_records_pass": true,
+      "clock_and_summary_errors": [],
+      "first_frame_index": 0,
+      "final_frame_index": 6572,
+      "forced_final_count": 0,
+      "reported_movie_duration_ms": 219101,
+      "reported_overrun_ms": 1,
+      "end_overrun_acceptance_bound_ms": 283,
+      "mean_rendered_frames_per_second": 28.08293891858093,
+      "maximum_selection_to_finish_ms": 183,
+      "max_calculation_ms": 175,
+      "max_presentation_ms": 45,
+      "last_calculation_ms": 1,
+      "expected_distinct_visible_states": 6011,
+      "matched_distinct_visible_states": 6011,
+      "actual_image_sequence_pass": true,
+      "image_sequence_error_count": 0,
+      "image_sequence_errors": [],
+      "unsupported_ansi": [],
+      "expected_distinct_sequence_sha256": "cf84be0d4c062e8a8dbae2e125b48964fdac6916b27cea669cd238289abc90a4",
+      "actual_distinct_sequence_sha256": "cf84be0d4c062e8a8dbae2e125b48964fdac6916b27cea669cd238289abc90a4",
+      "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+      "active_runtime_files_unchanged": true,
+      "unchanged_engine_sha256_pass": true,
+      "capture_receipt_pass": true,
+      "receive_timestamp_receipt_pass": true,
+      "host_monotonic_observations": {
+        "first_picture_received_ms_from_launch": 2786.264542,
+        "audit_begin_received_ms_from_launch": 221793.125625,
+        "estimated_movie_duration_ms": 219106.861083,
+        "difference_from_reported_duration_ms": 5.8610829999961425,
+        "present_record_origin_estimate_spread_ms": 7.8339819999964675,
+        "scope": "Host monotonic receive observations. Origin inferred by subtracting first recorded presentation duration; not physical refresh timestamps."
+      },
+      "capture_wall_seconds_including_loading_and_audit_dump": 222.732044052,
+      "capture_sha256": "577dda496797db58acc0d1ac975ce11d4f9a5fa7b32a6945c86930dea05637f5",
+      "capture_bytes": 81993165,
+      "clock_limitations": "ERB GETMILLISECOND uses wall time; this run is cross-checked with host monotonic receive observations. No system-clock adjustment is simulated."
+    }
+  },
+  "pypy": {
+    "release": "PyPy 8.0.1",
+    "python_compatibility": "3.12.15",
+    "upstream_status": "Release notes identify the Python3.12 implementation as beta; PyPy and sys.version_info report final release fields.",
+    "source_urls": [
+      "https://pypy.org/download.html",
+      "https://pypy.org/checksums",
+      "https://doc.pypy.org/release-v8.0.1.html",
+      "https://doc.pypy.org/index.html"
+    ],
+    "archives": [
+      {
+        "name": "pypy3.12-v8.0.1-linux64.tar.gz",
+        "source_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-linux64.tar.gz",
+        "final_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-linux64.tar.gz",
+        "bytes": 37994173,
+        "expected_sha256": "aeed27797777296d9c94e53bdfa608804696dbd4ff9f2213003cce064ee46ef8",
+        "actual_sha256": "aeed27797777296d9c94e53bdfa608804696dbd4ff9f2213003cce064ee46ef8",
+        "published_checksum_matches": true,
+        "checksums_url": "https://pypy.org/checksums"
+      },
+      {
+        "name": "pypy3.12-v8.0.1-win64.zip",
+        "source_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-win64.zip",
+        "final_url": "https://downloads.python.org/pypy/pypy3.12-v8.0.1-win64.zip",
+        "bytes": 35587195,
+        "expected_sha256": "225aa62deed1a624c86d5ffd03cc34615ff927b095d8508ad82593ee23ddce91",
+        "actual_sha256": "225aa62deed1a624c86d5ffd03cc34615ff927b095d8508ad82593ee23ddce91",
+        "published_checksum_matches": true,
+        "checksums_url": "https://pypy.org/checksums"
+      }
+    ],
+    "platforms": {
+      "linux": {
+        "root": "pypy/",
+        "archive": "pypy3.12-v8.0.1-linux64.tar.gz",
+        "regular_files": 3315,
+        "symlinks": 5,
+        "uncompressed_regular_file_bytes": 148006424,
+        "all_original_members_match": true,
+        "notices": [
+          "lib/pypy3.12/cffi-2.1.0.dist-info/licenses/LICENSE",
+          "lib/pypy3.12/_tkinter/license.terms",
+          "lib/pypy3.12/_cffi_ssl/LICENSE",
+          "lib/pypy3.12/hpy-0.9.1.dev61+g79fb330d.dist-info/LICENSE",
+          "lib/tk8.6/demos/license.terms",
+          "LICENSE"
+        ]
+      },
+      "windows": {
+        "root": "pypy/",
+        "archive": "pypy3.12-v8.0.1-win64.zip",
+        "regular_files": 3937,
+        "symlinks": 0,
+        "uncompressed_regular_file_bytes": 116090714,
+        "all_original_members_match": true,
+        "notices": [
+          "Lib/cffi-2.1.0.dist-info/licenses/LICENSE",
+          "Lib/_tkinter/license.terms",
+          "Lib/_cffi_ssl/LICENSE",
+          "Lib/hpy-0.9.1.dev61+g79fb330d.dist-info/LICENSE",
+          "tcl/tk8.6/demos/license.terms",
+          "tcl/tk8.6/license.terms",
+          "LICENSE"
+        ]
+      }
+    },
+    "windows_static_executable_machine": {
+      "pypy3.exe": "0x8664",
+      "libpypy3.12-c.dll": "0x8664"
+    },
+    "windows_static_dependencies": {
+      "pypy3.exe": [
+        "libpypy3.12-c.dll",
+        "KERNEL32.dll",
+        "VCRUNTIME140.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll",
+        "api-ms-win-crt-math-l1-1-0.dll",
+        "api-ms-win-crt-stdio-l1-1-0.dll",
+        "api-ms-win-crt-locale-l1-1-0.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll"
+      ],
+      "libpypy3.12-c.dll": [
+        "KERNEL32.dll",
+        "bcrypt.dll",
+        "WS2_32.dll",
+        "IPHLPAPI.DLL",
+        "ADVAPI32.dll",
+        "libffi-8.dll",
+        "USER32.dll",
+        "VCRUNTIME140.dll",
+        "api-ms-win-crt-locale-l1-1-0.dll",
+        "api-ms-win-crt-time-l1-1-0.dll",
+        "api-ms-win-crt-string-l1-1-0.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll",
+        "api-ms-win-crt-stdio-l1-1-0.dll",
+        "api-ms-win-crt-filesystem-l1-1-0.dll",
+        "api-ms-win-crt-math-l1-1-0.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll",
+        "api-ms-win-crt-process-l1-1-0.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll",
+        "api-ms-win-crt-utility-l1-1-0.dll"
+      ]
+    },
+    "windows_external_runtime_note": "Official distribution depends on VCRUNTIME140.dll and WindowsUCRT; VCRUNTIME140.dll is not supplied in the PyPy archive. Official downloadpage points to the VC runtime installer.",
+    "license_scope": "Complete upstream distributions and all original LICENSE/notice files are retained; bundled standard library and other components retain their individual licenses.",
+    "packaging_instruction": "Package every original upstream archive member and preserve Linux symbolic links. Extra local interpreter caches are not upstream payload.",
+    "file_manifests": {
+      "linux": "linux_upstream_manifest.json",
+      "windows": "windows_upstream_manifest.json"
+    },
+    "evidence_files": [
+      "downloads.json"
+    ]
+  },
+  "runtime_files": {
+    "BadAppleERB.cmd": {
+      "type": "file",
+      "bytes": 717,
+      "sha256": "4f4886a94d673634f20e1c5b8548a605245c2c7808ebb0a5e04169253682c0ca"
+    },
+    "BadAppleERB_CPython.cmd": {
+      "type": "file",
+      "bytes": 93,
+      "sha256": "91b11e1137648fde90bc2b60fae9902a2495d207a156d22d747f099a44e7e715"
+    },
+    "CREDITS.md": {
+      "type": "file",
+      "bytes": 5751,
+      "sha256": "89578a262c5b9790907dc63bfc0c1f2a79b7677a3a21da6a04cf70e8769f48f1"
+    },
+    "CSV/GameBase.csv": {
+      "type": "file",
+      "bytes": 230,
+      "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8"
+    },
+    "ERB/GEOMETRY.ERH": {
+      "type": "file",
+      "bytes": 975830,
+      "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+    },
+    "ERB/PLAYER.ERB": {
+      "type": "file",
+      "bytes": 18762,
+      "sha256": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1"
+    },
+    "ERB/PLAYER.ERH": {
+      "type": "file",
+      "bytes": 1554,
+      "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+    },
+    "HOW_IT_WORKS_en.txt": {
+      "type": "file",
+      "bytes": 25843,
+      "sha256": "e0a3a05aec33fbe34f040dc5cb855668723fd3213d7e73bd0189389a82b8844a"
+    },
+    "HOW_IT_WORKS_ja.txt": {
+      "type": "file",
+      "bytes": 30563,
+      "sha256": "027f3ba70c1c853643bad8f4e2113384b5801ad8d4c1a85c1ead835f8f4db662"
+    },
+    "LICENSE": {
+      "type": "file",
+      "bytes": 1071,
+      "sha256": "76b1f6a3d9fbabd88784ba4a6d8dc454dc39527b4089bacf38273b37113d388f"
+    },
+    "PyEmuera.pyz": {
+      "type": "file",
+      "bytes": 668438,
+      "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+    },
+    "README_en.md": {
+      "type": "file",
+      "bytes": 9395,
+      "sha256": "4d765589beb1d757c0b65e8c91409c79c2cae6405a3f3831c7a7ddbc95d11e97"
+    },
+    "README_ja.md": {
+      "type": "file",
+      "bytes": 9824,
+      "sha256": "5ad604d63ed88428fb20c3a6a9cdc85ae6209c1384065598a201207da56a175c"
+    },
+    "console_utf8.py": {
+      "type": "file",
+      "bytes": 4385,
+      "sha256": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a"
+    },
+    "packed_format.json": {
+      "type": "file",
+      "bytes": 1842,
+      "sha256": "7d1efb3ffd7a5cb87816a91f5e0a8a0ad31b054685b09e17ad0dc2cbc049efc6"
+    },
+    "run.sh": {
+      "type": "file",
+      "bytes": 291,
+      "sha256": "8aa2a5501337f065faad17d55a92abb69c9dc3b3c370ca60cd4b98cee7307ce2"
+    },
+    "third_party/PyEmuera/LICENSE": {
+      "type": "file",
+      "bytes": 1078,
+      "sha256": "b33bbcc5a0d1ace88bfb1d3f9443337ce4b1030a68396430c53b1563203d63f0"
+    },
+    "third_party/PyEmuera/THIRD_PARTY_MS_NLS_NOTICE_ja.md": {
+      "type": "file",
+      "bytes": 2743,
+      "sha256": "036d37cfae2318fb0b854022acdf088343ca7adbc6e3b27bcf64595118f23c3e"
+    },
+    "third_party/PyEmuera/THIRD_PARTY_NOTICES.md": {
+      "type": "file",
+      "bytes": 5848,
+      "sha256": "cdb1dfe80b9ffe1defc575c280ac8bd2b82d44f6c81ad50a10671f0dbf284edb"
+    },
+    "third_party/PyEmuera/licenses/Emuera1824.txt": {
+      "type": "file",
+      "bytes": 1266,
+      "sha256": "ce1134568e4a9fd56d4831c37dceb82050009e90349394f3f05a03a668500a06"
+    },
+    "third_party/PyEmuera/licenses/MICROSOFT_REFERENCE_SOURCE_MIT.txt": {
+      "type": "file",
+      "bytes": 1083,
+      "sha256": "b5cb7ff7859e7d282d98fc43ab081b0dda5dc659dc3385cf65740c759a7e6a6c"
+    },
+    "third_party/PyEmuera/licenses/UNICODE_LICENSE_V3.txt": {
+      "type": "file",
+      "bytes": 1995,
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+    },
+    "third_party/PyPy/BUNDLE_PROVENANCE_ja.txt": {
+      "type": "file",
+      "bytes": 2573,
+      "sha256": "ad5d2b80e8ce63ae8ea5e8f5247ddc49497c62e3c1aa8e66c40f1fd15cd3d65e"
+    },
+    "third_party/PyPy/bundle_provenance.json": {
+      "type": "file",
+      "bytes": 4489,
+      "sha256": "b5e83284164c9dffb110c1c47aa61160c2c91500285183e6e815774c50a0ce90"
+    },
+    "third_party/PyPy/downloads.json": {
+      "type": "file",
+      "bytes": 1359,
+      "sha256": "46f80071ece3efc6a3c8014d3881d206faed66a62f548b5a62fdcae42e83d845"
+    },
+    "third_party/PyPy/linux_upstream_manifest.json": {
+      "type": "file",
+      "bytes": 711075,
+      "sha256": "bb73de5c6d3483d1f3bb7b8da67e6e811f077b9a1e6eb8df98edb8aadb56cea3"
+    },
+    "third_party/PyPy/windows_upstream_manifest.json": {
+      "type": "file",
+      "bytes": 704457,
+      "sha256": "00e95fd00e1e65e9d2a72f48a7c57363785012f1e8175867e4e380350bc4ae10"
+    },
+    "txt00.txt": {
+      "type": "file",
+      "bytes": 2906994,
+      "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+    },
+    "txt01.txt": {
+      "type": "file",
+      "bytes": 2916540,
+      "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+    },
+    "txt02.txt": {
+      "type": "file",
+      "bytes": 5464257,
+      "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+    },
+    "txt03.txt": {
+      "type": "file",
+      "bytes": 2772972,
+      "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+    },
+    "txt04.txt": {
+      "type": "file",
+      "bytes": 1291172,
+      "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+    }
+  },
+  "limits": [
+    "Video only; no audio",
+    "79x24 logical gray-cell accuracy, not original-resolution or physical-font pixel identity",
+    "Menu preview renders captured terminal cells with a fixed font"
+  ]
+}

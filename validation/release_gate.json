@@ -1,0 +1,82 @@
+{
+  "pass": true,
+  "menu_acceptance": "validation/menu_acceptance.json",
+  "menu_acceptance_sha256": "d8e24a74da1e5a67ca8d5e71db9854816175e1ec2e625648ff7c5eace0e82a9a",
+  "runtime_file_sha256": {
+    "BadAppleERB.cmd": "4f4886a94d673634f20e1c5b8548a605245c2c7808ebb0a5e04169253682c0ca",
+    "BadAppleERB_CPython.cmd": "91b11e1137648fde90bc2b60fae9902a2495d207a156d22d747f099a44e7e715",
+    "CSV/GameBase.csv": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8",
+    "ERB/GEOMETRY.ERH": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d",
+    "ERB/PLAYER.ERB": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1",
+    "ERB/PLAYER.ERH": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc",
+    "HOW_IT_WORKS_en.txt": "e0a3a05aec33fbe34f040dc5cb855668723fd3213d7e73bd0189389a82b8844a",
+    "HOW_IT_WORKS_ja.txt": "027f3ba70c1c853643bad8f4e2113384b5801ad8d4c1a85c1ead835f8f4db662",
+    "LICENSE": "76b1f6a3d9fbabd88784ba4a6d8dc454dc39527b4089bacf38273b37113d388f",
+    "PyEmuera.pyz": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35",
+    "README_en.md": "4d765589beb1d757c0b65e8c91409c79c2cae6405a3f3831c7a7ddbc95d11e97",
+    "README_ja.md": "5ad604d63ed88428fb20c3a6a9cdc85ae6209c1384065598a201207da56a175c",
+    "console_utf8.py": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a",
+    "packed_format.json": "7d1efb3ffd7a5cb87816a91f5e0a8a0ad31b054685b09e17ad0dc2cbc049efc6",
+    "run.sh": "8aa2a5501337f065faad17d55a92abb69c9dc3b3c370ca60cd4b98cee7307ce2",
+    "third_party/PyEmuera/LICENSE": "b33bbcc5a0d1ace88bfb1d3f9443337ce4b1030a68396430c53b1563203d63f0",
+    "third_party/PyEmuera/THIRD_PARTY_MS_NLS_NOTICE_ja.md": "036d37cfae2318fb0b854022acdf088343ca7adbc6e3b27bcf64595118f23c3e",
+    "third_party/PyEmuera/THIRD_PARTY_NOTICES.md": "cdb1dfe80b9ffe1defc575c280ac8bd2b82d44f6c81ad50a10671f0dbf284edb",
+    "third_party/PyEmuera/licenses/Emuera1824.txt": "ce1134568e4a9fd56d4831c37dceb82050009e90349394f3f05a03a668500a06",
+    "third_party/PyEmuera/licenses/MICROSOFT_REFERENCE_SOURCE_MIT.txt": "b5cb7ff7859e7d282d98fc43ab081b0dda5dc659dc3385cf65740c759a7e6a6c",
+    "third_party/PyEmuera/licenses/UNICODE_LICENSE_V3.txt": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+    "third_party/PyPy/BUNDLE_PROVENANCE_ja.txt": "ad5d2b80e8ce63ae8ea5e8f5247ddc49497c62e3c1aa8e66c40f1fd15cd3d65e",
+    "third_party/PyPy/bundle_provenance.json": "b5e83284164c9dffb110c1c47aa61160c2c91500285183e6e815774c50a0ce90",
+    "third_party/PyPy/downloads.json": "46f80071ece3efc6a3c8014d3881d206faed66a62f548b5a62fdcae42e83d845",
+    "third_party/PyPy/linux_upstream_manifest.json": "bb73de5c6d3483d1f3bb7b8da67e6e811f077b9a1e6eb8df98edb8aadb56cea3",
+    "third_party/PyPy/windows_upstream_manifest.json": "00e95fd00e1e65e9d2a72f48a7c57363785012f1e8175867e4e380350bc4ae10",
+    "txt00.txt": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449",
+    "txt01.txt": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3",
+    "txt02.txt": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908",
+    "txt03.txt": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff",
+    "txt04.txt": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+  },
+  "single_erb_script": "ERB/PLAYER.ERB",
+  "documentation": {
+    "README_ja.md": {
+      "bytes": 9824,
+      "sha256": "5ad604d63ed88428fb20c3a6a9cdc85ae6209c1384065598a201207da56a175c"
+    },
+    "README_en.md": {
+      "bytes": 9395,
+      "sha256": "4d765589beb1d757c0b65e8c91409c79c2cae6405a3f3831c7a7ddbc95d11e97"
+    },
+    "HOW_IT_WORKS_ja.txt": {
+      "bytes": 30563,
+      "sha256": "027f3ba70c1c853643bad8f4e2113384b5801ad8d4c1a85c1ead835f8f4db662"
+    },
+    "HOW_IT_WORKS_en.txt": {
+      "bytes": 25843,
+      "sha256": "e0a3a05aec33fbe34f040dc5cb855668723fd3213d7e73bd0189389a82b8844a"
+    }
+  },
+  "documentation_review": {
+    "japanese_and_english_readme": true,
+    "japanese_and_english_plain_text_technical_explanation": true,
+    "third_party_facing": true,
+    "implementation_and_documentation_match": true,
+    "public_text_consistency_check_pass": true
+  },
+  "source_bridge": "validation/release_source_bridge.json",
+  "preview_relative_path": "validation/production_pypy/menu_initial.png",
+  "preview_sha256": "2766cb294ee8d060f5e1687f773049a01318611c97b032b545e728db3575979e",
+  "visual_review": {
+    "pass": true,
+    "title_and_all_menu_choices_readable": true,
+    "bow_apple_hat_and_broom_visible": true,
+    "no_clipping": true,
+    "menu_with_input_fits_80x25": true,
+    "scope": "Captured terminal cells rendered with fixed fonts"
+  },
+  "prior_release_files_preserved": 36,
+  "windows_console_utf8": {
+    "pass": true,
+    "report": "validation/console_utf8_verification.json",
+    "report_sha256": "245b265f78c06bdcdfdfa338808b2120bf5aabd8e87896fa908808a99bbde703"
+  },
+  "revision": "windows-utf8-startup-1"
+}

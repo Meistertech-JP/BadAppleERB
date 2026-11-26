@@ -1,0 +1,48 @@
+{
+  "format": "persistent-tracks-bmp15-v1",
+  "tracks": 259787,
+  "curve_pieces": 1521928,
+  "shared_coefficients": 104206,
+  "channel_pieces": {
+    "LEFT": 382428,
+    "RIGHT": 383004,
+    "GRAY": 756496
+  },
+  "digit_encoding": "Unicode code point = 256 + digit; digit range 0..32767; all code points U+0100..U+80FF, no surrogates",
+  "identifier_encoding": "Two little-endian base-32768 digits",
+  "txt00_txt02": "One line per birth-ordered track. Each curve piece is [duration, coefficient_id_low, coefficient_id_high]. Track first frame starts the first piece; subsequent pieces follow consecutively.",
+  "txt03": "One line per birth-ordered track: [first_frame, row, previous_track_plus_one_low, previous_track_plus_one_high]. Zero previous-plus-one means row head.",
+  "txt04": "One line per source frame, including the end sentinel frame N. Each death identifier is two digits. Process all deaths before that frame's births.",
+  "files": [
+    {
+      "path": "txt00.txt",
+      "bytes": 2906994,
+      "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+    },
+    {
+      "path": "txt01.txt",
+      "bytes": 2916540,
+      "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+    },
+    {
+      "path": "txt02.txt",
+      "bytes": 5464257,
+      "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+    },
+    {
+      "path": "txt03.txt",
+      "bytes": 2772972,
+      "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+    },
+    {
+      "path": "txt04.txt",
+      "bytes": 1291172,
+      "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+    },
+    {
+      "path": "ERB/GEOMETRY.ERH",
+      "bytes": 975830,
+      "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+    }
+  ]
+}

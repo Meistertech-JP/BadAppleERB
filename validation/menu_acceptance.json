@@ -1,0 +1,521 @@
+{
+  "pass": true,
+  "scope": "Unified menu acceptance in an 80x25 terminal; real playback, menu return, and restart tested in an isolated 120-frame copy; full-film evidence paired with preserved function bodies and numerical data",
+  "production_runtime": "runtime",
+  "runtime_files": {
+    "CSV/GameBase.csv": {
+      "bytes": 230,
+      "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8"
+    },
+    "ERB/GEOMETRY.ERH": {
+      "bytes": 975830,
+      "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+    },
+    "ERB/PLAYER.ERB": {
+      "bytes": 18762,
+      "sha256": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1"
+    },
+    "ERB/PLAYER.ERH": {
+      "bytes": 1554,
+      "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+    },
+    "PyEmuera.pyz": {
+      "bytes": 668438,
+      "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+    },
+    "txt00.txt": {
+      "bytes": 2906994,
+      "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+    },
+    "txt01.txt": {
+      "bytes": 2916540,
+      "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+    },
+    "txt02.txt": {
+      "bytes": 5464257,
+      "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+    },
+    "txt03.txt": {
+      "bytes": 2772972,
+      "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+    },
+    "txt04.txt": {
+      "bytes": 1291172,
+      "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+    }
+  },
+  "all_test_reports_match_current_runtime_hashes": false,
+  "all_test_reports_match_release_or_verified_source_bridge": true,
+  "release_source_relation": {
+    "pass": true,
+    "all_runtime_hashes_identical": false,
+    "bridge_used": true,
+    "report": "validation/release_source_bridge.json",
+    "report_sha256": "c1d347c192601e30aad311c8d1cd7881920566eb16c9c568239ff7210d59d898",
+    "tested_player_sha256": "8e33ec1cfbc35cb5c287f664f39a63c04a6876bdf974ef76e2dea6eea3e38ea6",
+    "release_player_sha256": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1",
+    "checks": {
+      "release_player_hash_matches_receipt": true,
+      "receipt_records_comment_only_change": true,
+      "tested_and_release_function_bodies_match_actual_release": true,
+      "tested_and_release_executable_lines_match_actual_release": true
+    },
+    "test_reports_matched": {
+      "production_cpython": true,
+      "production_pypy": true,
+      "branches_pypy_corrected": true
+    },
+    "scope": "Recorded test source hashes are retained; release source differs by one section comment and preserves every function body and executable line"
+  },
+  "single_erb_file": true,
+  "function_preservation": {
+    "pass": true,
+    "count": 17,
+    "report": "validation/menu_function_preservation.json",
+    "report_sha256": "aefaa49bd28342b4c8cdbc3598a9a898c3b64f56493585d04c34b5c041e3798c",
+    "definition": "Exact bytes from @definition through the final executable statement, excluding only following blank lines and section comments"
+  },
+  "production_menu_tests": {
+    "production_cpython": {
+      "pass": true,
+      "command": [
+        "python3",
+        "-B",
+        "runtime/PyEmuera.pyz",
+        "runtime"
+      ],
+      "production_source_tested_without_loop_modification": true,
+      "tested_player_sha256": "8e33ec1cfbc35cb5c287f664f39a63c04a6876bdf974ef76e2dea6eea3e38ea6",
+      "invalid_inputs": [
+        {
+          "input": "9",
+          "re_prompted": true
+        },
+        {
+          "input": "abc",
+          "re_prompted": true
+        },
+        {
+          "input": "",
+          "re_prompted": true
+        }
+      ],
+      "choice_0_exited": true,
+      "layout_states": [
+        {
+          "stage": "initial",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        },
+        {
+          "stage": "invalid_input",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        },
+        {
+          "stage": "invalid_input",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        },
+        {
+          "stage": "invalid_input",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        }
+      ],
+      "report": "validation/production_cpython/report.json",
+      "report_sha256": "91c5e7cdb11d4f8e622f10533d50aa2328809640bd3593bc947f2ff480151ef9",
+      "ansi_capture_sha256": "8aa554c870f0ecd37880b6d08fd088a97cf995d6b30de9a8077886aa9fe625a4"
+    },
+    "production_pypy": {
+      "pass": true,
+      "command": [
+        "pypy/bin/pypy3",
+        "-B",
+        "runtime/PyEmuera.pyz",
+        "runtime"
+      ],
+      "production_source_tested_without_loop_modification": true,
+      "tested_player_sha256": "8e33ec1cfbc35cb5c287f664f39a63c04a6876bdf974ef76e2dea6eea3e38ea6",
+      "invalid_inputs": [
+        {
+          "input": "9",
+          "re_prompted": true
+        },
+        {
+          "input": "abc",
+          "re_prompted": true
+        },
+        {
+          "input": "",
+          "re_prompted": true
+        }
+      ],
+      "choice_0_exited": true,
+      "layout_states": [
+        {
+          "stage": "initial",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        },
+        {
+          "stage": "invalid_input",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        },
+        {
+          "stage": "invalid_input",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        },
+        {
+          "stage": "invalid_input",
+          "pass": true,
+          "max_row": 24,
+          "max_column": 76,
+          "cursor": [
+            2,
+            23
+          ]
+        }
+      ],
+      "report": "validation/production_pypy/report.json",
+      "report_sha256": "7a292fe41b9185a313a795375984e4050cb0f8ddb58623b6558d316a4d8e2684",
+      "ansi_capture_sha256": "8aa554c870f0ecd37880b6d08fd088a97cf995d6b30de9a8077886aa9fe625a4"
+    }
+  },
+  "viewport": {
+    "terminal_columns": 80,
+    "terminal_rows": 25,
+    "max_nonblank_column": 76,
+    "max_nonblank_row": 24,
+    "host_input_prompt_row": 24,
+    "reserved_row_25_blank": true,
+    "reserved_column_80_blank": true,
+    "all_menu_states_fit": true,
+    "production_cpython_and_pypy_cell_states_equal": true,
+    "production_cpython_and_pypy_ansi_output_equal": true
+  },
+  "mode_route_return_and_restart": {
+    "pass": true,
+    "input_sequence": [
+      "1",
+      "2",
+      "1",
+      "0"
+    ],
+    "route_mapping": {
+      "1": "BA_REALTIME",
+      "2": "BA_PLAY",
+      "0": "RETURN from BA_MENU then QUIT"
+    },
+    "movies": [
+      {
+        "pass": true,
+        "expected_render_calls": 112,
+        "first_frame": 0,
+        "last_frame": 119,
+        "expected_distinct_images": 71,
+        "matched_distinct_images": 71,
+        "mismatching_images": 0,
+        "errors": [],
+        "selection": "1",
+        "sequence": 0,
+        "footer_present": true,
+        "clock_choice_pass": true,
+        "return_menu": true,
+        "timeline_summary": [
+          120,
+          112,
+          8,
+          4000,
+          119
+        ],
+        "conflicting_frame_records": []
+      },
+      {
+        "pass": true,
+        "expected_render_calls": 120,
+        "first_frame": 0,
+        "last_frame": 119,
+        "expected_distinct_images": 78,
+        "matched_distinct_images": 78,
+        "mismatching_images": 0,
+        "errors": [],
+        "selection": "2",
+        "sequence": 1,
+        "footer_present": true,
+        "clock_choice_pass": true,
+        "return_menu": true,
+        "timeline_summary": null,
+        "conflicting_frame_records": []
+      },
+      {
+        "pass": true,
+        "expected_render_calls": 120,
+        "first_frame": 0,
+        "last_frame": 119,
+        "expected_distinct_images": 78,
+        "matched_distinct_images": 78,
+        "mismatching_images": 0,
+        "errors": [],
+        "selection": "1",
+        "sequence": 2,
+        "footer_present": true,
+        "clock_choice_pass": true,
+        "return_menu": true,
+        "timeline_summary": [
+          120,
+          120,
+          0,
+          4000,
+          119
+        ],
+        "conflicting_frame_records": []
+      }
+    ],
+    "second_and_third_plays_begin_at_frame_zero": true,
+    "second_realtime_clock_restarted_at_zero": true,
+    "choice_0_exited": true,
+    "report": "validation/branches_pypy_corrected/report.json",
+    "report_sha256": "22ba621d68959fe847c43bec1f162ff1c257cd389ff0ce58e16f697c900b8469"
+  },
+  "short_test_copy_scope": {
+    "scope": "Isolated 120-frame real-loop test; not a full 6573-frame movie run",
+    "source_runtime": "runtime",
+    "test_runtime": "test_runtime_short_corrected",
+    "menu_functions_byte_identical": true,
+    "unchanged_functions": {
+      "SYSTEM_TITLE": true,
+      "BA_INIT": true,
+      "BA_LOAD": true,
+      "BA_RESET": true,
+      "BA_EVENTS": true,
+      "BA_RENDER": true,
+      "BA_PRESENT": true,
+      "BA_PLAY": true,
+      "BA_BENCH": true,
+      "BA_VERIFY": true,
+      "BA_REALTIME_AUDIT": true,
+      "BA_REALTIME_AUDIT_SHORT": true,
+      "BA_RUN_REALTIME": true,
+      "BA_VERIFY_JUMPS": true,
+      "BA_VERIFY_JUMP_SMOKE": true,
+      "BA_TRACE_ONE": true,
+      "BA_MENU": true,
+      "BA_MENU_DRAW": true,
+      "BA_MENU_ART": true
+    },
+    "changes": [
+      "BA_REALTIME passes 120 to the unchanged BA_RUN_REALTIME and emits audit after playback",
+      "BA_RUN iterates 0..119, waits for 120/30 seconds, reports 120; its actual sequential render/present body is unchanged"
+    ],
+    "full_data_frame_constant_unchanged": true,
+    "diff": "--- production PLAYER.ERB\n+++ isolated short-test PLAYER.ERB\n@@ -332,7 +332,7 @@\n SETCOLOR 255, 255, 255\n SETBGCOLOR 0, 0, 0\n BA_STARTMS = GETMILLISECOND()\n-FOR LF, 0, BA_FRAMES\n+FOR LF, 0, 120\n     LTIME = GETMILLISECOND()\n     CALL BA_RENDER, LF\n     BA_CALCMS += GETMILLISECOND() - LTIME\n@@ -354,7 +354,7 @@\n     ENDIF\n NEXT\n IF LPACED\n-    LW = BA_STARTMS + BA_FRAMES * 1000 / BA_FPS - GETMILLISECOND()\n+    LW = BA_STARTMS + 120 * 1000 / BA_FPS - GETMILLISECOND()\n     SIF LW > 0\n         AWAIT LW\n ENDIF\n@@ -362,7 +362,7 @@\n CLEARLINE BA_SHOWN\n BA_SHOWN = 0\n REDRAW 3\n-PRINTFORML Completed {BA_FRAMES} / {BA_FRAMES} frames. Elapsed: {BA_ELAPSEDMS} ms.\n+PRINTFORML Completed {120} / {120} frames. Elapsed: {BA_ELAPSEDMS} ms.\n PRINTFORML Calculation and row construction: {BA_CALCMS} ms; presentation: {BA_PRESENTMS} ms.\n SIF LPACED\n     PRINTFORML Maximum lateness: {BA_MAXLATE} ms; late by over one frame: {BA_LATEFRAMES}.\n@@ -396,8 +396,8 @@\n ; and the curve chains of spans alive at the selected target.\n ; GETMILLISECOND is the engine's wall-clock query, not a monotonic clock.\n @BA_REALTIME\n-BA_RT_AUDIT = 0\n-CALL BA_RUN_REALTIME, BA_FRAMES\n+BA_RT_AUDIT = 1\n+CALL BA_RUN_REALTIME, 120\n RETURN RESULT\n \n ; Identical movie loop; only the post-movie diagnostic emission differs.\n"
+  },
+  "prior_full_movie_evidence": {
+    "new_full_6573_frame_run_performed": false,
+    "coverage_basis": "All 17 preexisting movie function bodies, the engine, headers, and numerical data match the recorded full-film validation inputs.",
+    "evidence": [
+      {
+        "file": "validation/prior_full_evidence/actual_erb_full_report.json",
+        "sha256": "ad7c8e53923282173aaad2e163c02f6917a5a2d027fd0afff00d840cd9fc9348",
+        "pass": true,
+        "scope": "Actual ERB-generated gray cells against an independently decoded source video; not optical font identity or real-time timing acceptance",
+        "key_results": {
+          "scope": "Actual ERB-generated gray cells against an independently decoded source video; not optical font identity or real-time timing acceptance",
+          "width": 79,
+          "height": 24,
+          "expected_frames": 6573,
+          "observed_frames": 6573,
+          "complete": true,
+          "done_marker_present": true,
+          "reference_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+          "actual_gray_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+          "mismatching_frames": 0,
+          "mismatching_cells": 0,
+          "structural_error": null,
+          "pass": true,
+          "source_video_sha256": "9ca50d481a3e773a77f729ef7fcab3e1fe14cb3745eb3c97f6af72cccc3b7f7e",
+          "trace_file_sha256": "ef4877bfe40dc7883e8e3d2d38d6a1e37b04bff84a59edf5bc2a4f11620bc8d4",
+          "reference_filter": "scale=79:24:flags=area:in_range=tv:out_range=full:in_color_matrix=bt709:out_color_matrix=bt709,format=gray",
+          "ffmpeg_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+        }
+      },
+      {
+        "file": "validation/prior_full_evidence/cpython_full_audit.json",
+        "sha256": "6d12a21320698c001674909b3387e977381f66b332eb9df2fbf255da3a1d7bbc",
+        "pass": true,
+        "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+        "key_results": {
+          "pass": true,
+          "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+          "source_frame_count": 6573,
+          "source_rate": "30/1",
+          "target_duration_ms": 219100,
+          "rendered_frame_count": 1916,
+          "skipped_frame_count": 4657,
+          "clock_rule_all_records_pass": true,
+          "first_frame_index": 0,
+          "final_frame_index": 6572,
+          "forced_final_count": 0,
+          "reported_movie_duration_ms": 219100,
+          "reported_overrun_ms": 0,
+          "end_overrun_acceptance_bound_ms": 2607,
+          "mean_rendered_frames_per_second": 8.744865358283889,
+          "maximum_selection_to_finish_ms": 2507,
+          "max_calculation_ms": 2500,
+          "max_presentation_ms": 47,
+          "last_calculation_ms": 3,
+          "expected_distinct_visible_states": 1827,
+          "matched_distinct_visible_states": 1827,
+          "actual_image_sequence_pass": true,
+          "image_sequence_error_count": 0,
+          "expected_distinct_sequence_sha256": "6f084199dd056a02f33162bd72a5822bdbdd6575217ccf2d2d0129c3e0cf32cc",
+          "actual_distinct_sequence_sha256": "6f084199dd056a02f33162bd72a5822bdbdd6575217ccf2d2d0129c3e0cf32cc",
+          "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+          "active_runtime_files_unchanged": true,
+          "unchanged_engine_sha256_pass": true,
+          "capture_receipt_pass": true,
+          "receive_timestamp_receipt_pass": true,
+          "capture_wall_seconds_including_loading_and_audit_dump": 222.036073688,
+          "capture_sha256": "13c94638d579307f836a604387d5fdc8f76cbb2ad61c31677087c896d1480658",
+          "capture_bytes": 21188264,
+          "clock_limitations": "ERB GETMILLISECOND uses wall time; this run is cross-checked with host monotonic receive observations. No system-clock adjustment is simulated."
+        }
+      },
+      {
+        "file": "validation/prior_full_evidence/pypy_full_audit.json",
+        "sha256": "c138ff648ae9944a1ef53112443b3886296d1acbb14ac90b4f737107fed78e3d",
+        "pass": true,
+        "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+        "key_results": {
+          "pass": true,
+          "scope": "Elapsed-time frame choice, all actual visible selected framebuffers, endpoint, duration and immutable files. Not full30fps output or optical font identity.",
+          "source_frame_count": 6573,
+          "source_rate": "30/1",
+          "target_duration_ms": 219100,
+          "rendered_frame_count": 6153,
+          "skipped_frame_count": 420,
+          "clock_rule_all_records_pass": true,
+          "first_frame_index": 0,
+          "final_frame_index": 6572,
+          "forced_final_count": 0,
+          "reported_movie_duration_ms": 219101,
+          "reported_overrun_ms": 1,
+          "end_overrun_acceptance_bound_ms": 283,
+          "mean_rendered_frames_per_second": 28.08293891858093,
+          "maximum_selection_to_finish_ms": 183,
+          "max_calculation_ms": 175,
+          "max_presentation_ms": 45,
+          "last_calculation_ms": 1,
+          "expected_distinct_visible_states": 6011,
+          "matched_distinct_visible_states": 6011,
+          "actual_image_sequence_pass": true,
+          "image_sequence_error_count": 0,
+          "expected_distinct_sequence_sha256": "cf84be0d4c062e8a8dbae2e125b48964fdac6916b27cea669cd238289abc90a4",
+          "actual_distinct_sequence_sha256": "cf84be0d4c062e8a8dbae2e125b48964fdac6916b27cea669cd238289abc90a4",
+          "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+          "active_runtime_files_unchanged": true,
+          "unchanged_engine_sha256_pass": true,
+          "capture_receipt_pass": true,
+          "receive_timestamp_receipt_pass": true,
+          "capture_wall_seconds_including_loading_and_audit_dump": 222.732044052,
+          "capture_sha256": "577dda496797db58acc0d1ac975ce11d4f9a5fa7b32a6945c86930dea05637f5",
+          "capture_bytes": 81993165,
+          "clock_limitations": "ERB GETMILLISECOND uses wall time; this run is cross-checked with host monotonic receive observations. No system-clock adjustment is simulated."
+        }
+      },
+      {
+        "file": "validation/prior_full_evidence/pypy_seek_audit.json",
+        "sha256": "731c1b3836036f23a5e9485da9a4cb74830af3da6eac79555d6f4778a19c9faf",
+        "pass": true,
+        "scope": "Actual unchanged-engine ERB forward, long, backward, duplicate, restart and endpoint seeks against independent reference",
+        "key_results": {
+          "pass": true,
+          "scope": "Actual unchanged-engine ERB forward, long, backward, duplicate, restart and endpoint seeks against independent reference",
+          "expected_records": 35,
+          "observed_records": 35,
+          "gray_cells_compared": 66360,
+          "mismatching_records": 0,
+          "mismatching_cells": 0,
+          "done_marker_present": true,
+          "expected_seek_gray_sha256": "d86fe6b3d0509daa6ccbe2b4133ee6035c9b2d483aea12ecfd1540885925be7c",
+          "actual_seek_gray_sha256": "d86fe6b3d0509daa6ccbe2b4133ee6035c9b2d483aea12ecfd1540885925be7c",
+          "independent_full_reference_sha256": "d9d69b416e4ed9d3b87465b0a003e038630ccf7a126054c045c9e76218052029",
+          "trace_sha256": "8f178345799ad00e2e119d41a47960d8b45a3f78bd9cb5a8a2c150060413a444"
+        }
+      },
+      {
+        "file": "validation/prior_full_evidence/preservation_audit.json",
+        "sha256": "3ee5b6af95a6dfd175cdcbe2ac31e687e51f8789787b5c7b84152790d5faa840",
+        "pass": true,
+        "scope": "Existing renderer and prior release preservation",
+        "key_results": {
+          "pass": true,
+          "baseline_files_byte_identical": true,
+          "baseline_file_count": 21
+        }
+      }
+    ]
+  },
+  "artifacts": {
+    "production_menu_png": "validation/production_pypy/menu_initial.png",
+    "production_menu_png_sha256": "2766cb294ee8d060f5e1687f773049a01318611c97b032b545e728db3575979e",
+    "production_menu_cells_json": "validation/production_pypy/menu_initial.json",
+    "production_menu_cells_sha256": "8d0187678c1922f3ca19e6a5b6d6e672340da238ed6e93d7cc8343ae837019c0",
+    "preview_scope": "Captured terminal character/color state rendered with fixed fonts",
+    "preview_font_files": [
+      "DejaVuSansMono.ttf (20 px)",
+      "NotoSansCJK-Regular.ttc (22 px)"
+    ],
+    "preview_cell_pixels": [
+      12,
+      25
+    ],
+    "preview_image_pixels": [
+      960,
+      625
+    ],
+    "production_stdout_ansi": "validation/production_pypy/stdout.ansi"
+  },
+  "limitations": [
+    "This is terminal-cell and RGB correctness at 79x24, not optical identity with source video pixels or a native terminal font.",
+    "Realtime mode deliberately skips elapsed source frames when drawing falls behind; it does not guarantee 30 rendered frames per second."
+  ]
+}

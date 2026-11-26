@@ -1,0 +1,172 @@
+{
+  "pass": true,
+  "baseline_source": "baseline/PLAYER.ERB",
+  "baseline_runtime_manifests": [
+    "baseline/cpython_timeline_runtime_before.json",
+    "baseline/pypy_timeline_runtime_before.json"
+  ],
+  "baseline_runtime_manifests_equal": true,
+  "menu_runtime": "runtime",
+  "function_body_definition": "Exact bytes from @definition through the final executable statement, excluding only following blank lines and section comments",
+  "intentional_changed_function": "SYSTEM_TITLE: CALL BA_REALTIME replaced with CALL BA_MENU; QUIT retained",
+  "new_functions": [
+    "BA_MENU",
+    "BA_MENU_ART",
+    "BA_MENU_DRAW"
+  ],
+  "prior_functions_preserved": {
+    "BA_INIT": {
+      "byte_identical": true,
+      "bytes": 867,
+      "baseline_sha256": "688ec94f2ff8c33f2b53de5dfc178c59ae085ca738ec6c513d8832f0c2d1367d",
+      "menu_sha256": "688ec94f2ff8c33f2b53de5dfc178c59ae085ca738ec6c513d8832f0c2d1367d"
+    },
+    "BA_LOAD": {
+      "byte_identical": true,
+      "bytes": 902,
+      "baseline_sha256": "68df3a10646496d19adf53c51857bd86e238478c8503b1d4808e4220e3a68e9a",
+      "menu_sha256": "68df3a10646496d19adf53c51857bd86e238478c8503b1d4808e4220e3a68e9a"
+    },
+    "BA_RESET": {
+      "byte_identical": true,
+      "bytes": 124,
+      "baseline_sha256": "24fb7b1b00bb5935655e12ed1c450c2920f5a386f6e74e7f268ed0efaa8ecfdf",
+      "menu_sha256": "24fb7b1b00bb5935655e12ed1c450c2920f5a386f6e74e7f268ed0efaa8ecfdf"
+    },
+    "BA_EVENTS": {
+      "byte_identical": true,
+      "bytes": 1320,
+      "baseline_sha256": "bdccdd8cf168faef61489b18470dd8192423d80a5444382ce2e7aa6e2cecba83",
+      "menu_sha256": "bdccdd8cf168faef61489b18470dd8192423d80a5444382ce2e7aa6e2cecba83"
+    },
+    "BA_RENDER": {
+      "byte_identical": true,
+      "bytes": 3327,
+      "baseline_sha256": "fcc412c6682d031698f7865b31426e5139bebba4d8d133f8b880c4c2294e6d13",
+      "menu_sha256": "fcc412c6682d031698f7865b31426e5139bebba4d8d133f8b880c4c2294e6d13"
+    },
+    "BA_PRESENT": {
+      "byte_identical": true,
+      "bytes": 128,
+      "baseline_sha256": "0a5897a2da3b06d07844ae312fadf4c94a83b68fffdf3111864731817e115f7c",
+      "menu_sha256": "0a5897a2da3b06d07844ae312fadf4c94a83b68fffdf3111864731817e115f7c"
+    },
+    "BA_PLAY": {
+      "byte_identical": true,
+      "bytes": 33,
+      "baseline_sha256": "f44cd120a425ef01944982d6118f39923c8c9743c575ba6193995fa9abb86f9c",
+      "menu_sha256": "f44cd120a425ef01944982d6118f39923c8c9743c575ba6193995fa9abb86f9c"
+    },
+    "BA_BENCH": {
+      "byte_identical": true,
+      "bytes": 34,
+      "baseline_sha256": "0f7a4fe669d151b731abaf84ec8ff761dcdd32a4f21898a58a9efc2e02376b4d",
+      "menu_sha256": "0f7a4fe669d151b731abaf84ec8ff761dcdd32a4f21898a58a9efc2e02376b4d"
+    },
+    "BA_RUN": {
+      "byte_identical": true,
+      "bytes": 1456,
+      "baseline_sha256": "e9d4f0aa881d9362a0608d1f7b7a2081375299969b83018b2600ee6275f78b4e",
+      "menu_sha256": "e9d4f0aa881d9362a0608d1f7b7a2081375299969b83018b2600ee6275f78b4e"
+    },
+    "BA_VERIFY": {
+      "byte_identical": true,
+      "bytes": 261,
+      "baseline_sha256": "16e857277500e567d516c2ad67dc2e08e98d5d1a9afdf9c8fd968e594c2cc577",
+      "menu_sha256": "16e857277500e567d516c2ad67dc2e08e98d5d1a9afdf9c8fd968e594c2cc577"
+    },
+    "BA_REALTIME": {
+      "byte_identical": true,
+      "bytes": 75,
+      "baseline_sha256": "0032fac625c6a7a089eff50cc14834283cec2199523e5e87e7f8bd01347bee6e",
+      "menu_sha256": "0032fac625c6a7a089eff50cc14834283cec2199523e5e87e7f8bd01347bee6e"
+    },
+    "BA_REALTIME_AUDIT": {
+      "byte_identical": true,
+      "bytes": 81,
+      "baseline_sha256": "924d40435b416abcf8c85ea8d369476c53ad5a01419950e2a5f1925dc9c49082",
+      "menu_sha256": "924d40435b416abcf8c85ea8d369476c53ad5a01419950e2a5f1925dc9c49082"
+    },
+    "BA_REALTIME_AUDIT_SHORT": {
+      "byte_identical": true,
+      "bytes": 81,
+      "baseline_sha256": "aa9573d0e4b435e39215dfdfc2271fb4f6f062a4539d495d98a951c8b354ee2f",
+      "menu_sha256": "aa9573d0e4b435e39215dfdfc2271fb4f6f062a4539d495d98a951c8b354ee2f"
+    },
+    "BA_RUN_REALTIME": {
+      "byte_identical": true,
+      "bytes": 3319,
+      "baseline_sha256": "111165ad1bd15b95da670404b6f021b9cd2f495b5fb090ed3a062e28885cc9ba",
+      "menu_sha256": "111165ad1bd15b95da670404b6f021b9cd2f495b5fb090ed3a062e28885cc9ba"
+    },
+    "BA_VERIFY_JUMPS": {
+      "byte_identical": true,
+      "bytes": 233,
+      "baseline_sha256": "45db951d22165a33a5995b3a00983653d28fdb63a1244683093901a73cde2962",
+      "menu_sha256": "45db951d22165a33a5995b3a00983653d28fdb63a1244683093901a73cde2962"
+    },
+    "BA_VERIFY_JUMP_SMOKE": {
+      "byte_identical": true,
+      "bytes": 256,
+      "baseline_sha256": "fa0f1305c1d6f765cecd09e475a930119f9a9610d48694b0f9c0af8e2c298cd1",
+      "menu_sha256": "fa0f1305c1d6f765cecd09e475a930119f9a9610d48694b0f9c0af8e2c298cd1"
+    },
+    "BA_TRACE_ONE": {
+      "byte_identical": true,
+      "bytes": 175,
+      "baseline_sha256": "53eece87bcd31661e5c418c6ffb3948fb3265644a7e57551609111358f9ad51a",
+      "menu_sha256": "53eece87bcd31661e5c418c6ffb3948fb3265644a7e57551609111358f9ad51a"
+    }
+  },
+  "nonplayer_active_files_preserved": {
+    "CSV/GameBase.csv": {
+      "byte_identical": true,
+      "bytes": 230,
+      "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8"
+    },
+    "ERB/GEOMETRY.ERH": {
+      "byte_identical": true,
+      "bytes": 975830,
+      "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d"
+    },
+    "ERB/PLAYER.ERH": {
+      "byte_identical": true,
+      "bytes": 1554,
+      "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc"
+    },
+    "PyEmuera.pyz": {
+      "byte_identical": true,
+      "bytes": 668438,
+      "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35"
+    },
+    "txt00.txt": {
+      "byte_identical": true,
+      "bytes": 2906994,
+      "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449"
+    },
+    "txt01.txt": {
+      "byte_identical": true,
+      "bytes": 2916540,
+      "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3"
+    },
+    "txt02.txt": {
+      "byte_identical": true,
+      "bytes": 5464257,
+      "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908"
+    },
+    "txt03.txt": {
+      "byte_identical": true,
+      "bytes": 2772972,
+      "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff"
+    },
+    "txt04.txt": {
+      "byte_identical": true,
+      "bytes": 1291172,
+      "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a"
+    }
+  },
+  "movie_function_count": 17,
+  "new_erb_source_files": [
+    "ERB/PLAYER.ERB"
+  ]
+}

@@ -1,0 +1,6 @@
+# Preserve the verified byte representation on every platform.
+* -text
+*.npz binary
+*.pyz binary
+*.png binary
+runtime/txt0[0-4].txt binary

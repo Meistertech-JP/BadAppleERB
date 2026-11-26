@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "scope": "Console code-page lifecycle with controlled API responses; stream, argument, failure, and cleanup semantics",
+  "bootstrap": "runtime/console_utf8.py",
+  "bootstrap_sha256": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a",
+  "tests_run": 11,
+  "cases": [
+    "test_cleanup_error_does_not_replace_entry_failure",
+    "test_cleanup_failure_is_reported_after_normal_return",
+    "test_different_original_input_and_output_pages",
+    "test_entry_exceptions_and_exit_codes_are_preserved",
+    "test_flush_failure_still_restores_pages_and_keeps_exit",
+    "test_interrupt_immediately_after_set_is_restored",
+    "test_later_external_page_change_is_kept",
+    "test_no_console_and_already_utf8_need_no_set_calls",
+    "test_partial_setup_failure_rolls_back_completed_change",
+    "test_standard_pages_streams_arguments_and_return_value",
+    "test_zero_input_page_keeps_output_independent"
+  ],
+  "failures": [],
+  "errors": []
+}

@@ -1,0 +1,24 @@
+Bad Apple!! ERB — Windows UTF-8 起動修正
+
+対象: BadAppleERB_79x24_menu の Windows x64・PyPy同梱版
+
+適用方法
+1. 起動中の Bad Apple!! ERB を終了する。
+2. このZIPを展開する。
+3. apply フォルダーの中身を、既存の PyEmuera.pyz と BadAppleERB.cmd が
+   あるフォルダーへコピーし、同名ファイルを上書きする。
+4. BadAppleERB.cmd を起動する。
+
+apply フォルダー自体をゲームフォルダーへ入れるのではなく、その中の
+ファイルをゲームフォルダーへ配置する。console_utf8.py は PyEmuera.pyz
+および BadAppleERB.cmd と同じ階層に必要となる。
+
+起動時に Python の標準ストリームと Windows コンソールの入出力を
+UTF-8へそろえる。入力・出力のコードページを別々に保存し、変更した設定は
+プログラムの終了時に復元する。CPython用の起動スクリプトも同じ処理を使う。
+
+この更新には起動ファイル、更新した日英ドキュメント、検証情報、ファイル一覧が
+含まれる。ERB、映像の数値データ、PyEmuera本体、同梱PyPyの置き換えは不要。
+
+起動時のエラーの詳細は logs/diagnostics.log にUTF-8で記録する。
+

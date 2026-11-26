@@ -1,0 +1,122 @@
+{
+  "pass": true,
+  "scope": "UTF-8 standard streams and console-code-page lifecycle, Windows launcher dispatch, and actual interpreter menu rendering",
+  "invocation": "python -B console_utf8.py PyEmuera.pyz . [engine arguments]",
+  "runtime_files": {
+    "console_utf8.py": {
+      "bytes": 4385,
+      "sha256": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a"
+    },
+    "BadAppleERB.cmd": {
+      "bytes": 717,
+      "sha256": "4f4886a94d673634f20e1c5b8548a605245c2c7808ebb0a5e04169253682c0ca"
+    }
+  },
+  "runtime_file_sha256": {
+    "console_utf8.py": "920e67ca4d75fe428219442a1ce99ea89dabbe63666230c2ec5682a6ce318b1a",
+    "BadAppleERB.cmd": "4f4886a94d673634f20e1c5b8548a605245c2c7808ebb0a5e04169253682c0ca"
+  },
+  "evidence_matches_frozen_bootstrap": true,
+  "code_page_lifecycle": {
+    "method": "Controlled API responses exercise input/output code-page setup and conditional restoration",
+    "input_and_output_snapshotted_separately": true,
+    "nonzero_code_pages_set_to": 65001,
+    "zero_code_page_requires_no_console_mutation": true,
+    "stream_flush_precedes_restoration": true,
+    "original_exception_and_system_exit_preserved": true,
+    "test_count": 11,
+    "cases": [
+      "test_cleanup_error_does_not_replace_entry_failure",
+      "test_cleanup_failure_is_reported_after_normal_return",
+      "test_different_original_input_and_output_pages",
+      "test_entry_exceptions_and_exit_codes_are_preserved",
+      "test_flush_failure_still_restores_pages_and_keeps_exit",
+      "test_interrupt_immediately_after_set_is_restored",
+      "test_later_external_page_change_is_kept",
+      "test_no_console_and_already_utf8_need_no_set_calls",
+      "test_partial_setup_failure_rolls_back_completed_change",
+      "test_standard_pages_streams_arguments_and_return_value",
+      "test_zero_input_page_keeps_output_independent"
+    ],
+    "report": "validation/console_utf8_tests.json",
+    "report_sha256": "f76ceef36c6aca3fc14de33536c9a5b4c32f6aae0f0afb3607e4f68336eb6076"
+  },
+  "launcher": {
+    "method": "Static dispatch and exit-code checks",
+    "checks": {
+      "all_interpreter_branches_use_bootstrap": true,
+      "python_utf8_environment": true,
+      "arguments_forwarded": true,
+      "engine_exit_code_saved": true,
+      "engine_exit_code_returned": true,
+      "diagnostic_path_kept_out_of_picture": true
+    }
+  },
+  "menu_smoke": {
+    "method": "Actual bundled interpreter, 80x25 PTY, inherited cp932 stream encoding, menu then choice0",
+    "report": "validation/console_utf8_smoke.json",
+    "report_sha256": "93d7f0aa8111dab76b511c24afd239a0d8f5598e590693f522b82fab77638c03",
+    "command": [
+      "pypy3",
+      "-B",
+      "runtime/console_utf8.py",
+      "runtime/PyEmuera.pyz",
+      "runtime"
+    ],
+    "initial_environment": {
+      "PYTHONIOENCODING": "cp932",
+      "PYTHONUTF8": "0"
+    },
+    "stdout_decodes_as_strict_utf8": true,
+    "rgb_escape_sequences_present": true,
+    "japanese_menu_and_colors_match_accepted_cells": true,
+    "exit_code": 0,
+    "movie_playback_performed": false,
+    "unexpected_stderr": []
+  },
+  "movie_payload_identity": {
+    "reference": "validation/menu_acceptance.json",
+    "files": {
+      "CSV/GameBase.csv": {
+        "sha256": "78cec6c5a402090940dcb5f82fdc2824ffec2ea6cb535379f724e9c3d5f25ff8",
+        "matches_reference": true
+      },
+      "ERB/GEOMETRY.ERH": {
+        "sha256": "e17c18ad0df4a793e1c69f75def482f9ac46afd2d3b0d9fc57d8463de428270d",
+        "matches_reference": true
+      },
+      "ERB/PLAYER.ERB": {
+        "sha256": "289a1b357ed42d46f193615e29fe08968eb4e9da902f20b0c23a5a7f922c6ef1",
+        "matches_reference": true
+      },
+      "ERB/PLAYER.ERH": {
+        "sha256": "9b9d802269c6eac781a7658a3e3341c5836fd7ed2e5ef24a5e3f83b9050179dc",
+        "matches_reference": true
+      },
+      "PyEmuera.pyz": {
+        "sha256": "8a7b3697b97155c4dc994c8349c6756bb0401000d3bbccd8e85ff046e3774b35",
+        "matches_reference": true
+      },
+      "txt00.txt": {
+        "sha256": "a47bb2738ff2d49be6f00b5104426df5b1625dcaa933149e12d6b626ec838449",
+        "matches_reference": true
+      },
+      "txt01.txt": {
+        "sha256": "01f87cbd18ba48d78d1e6898236c9c9f0f159d75810cb104a78eb80e298acbc3",
+        "matches_reference": true
+      },
+      "txt02.txt": {
+        "sha256": "28d2d8968ed872cae1e28ac1db315eb687ba71314a177800d3ebd5464bb0c908",
+        "matches_reference": true
+      },
+      "txt03.txt": {
+        "sha256": "3c742025a90db20fd05ffdd85270e3de2d51fcf452c467ac2c5e9ad1b78eacff",
+        "matches_reference": true
+      },
+      "txt04.txt": {
+        "sha256": "e154d5bc16a7cb6fff2fe19026e079e07b0be0b38418ca7ce38a00c3f4df821a",
+        "matches_reference": true
+      }
+    }
+  }
+}

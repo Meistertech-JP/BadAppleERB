@@ -1,0 +1,51 @@
+PyPy同梱物の出典（2026-11-23）
+
+同梱する処理系
+  PyPy8.0.1 / Python3.12.15
+  Windows x64: pypy3.12-v8.0.1-win64/pypy3.exe
+  Linux x64:   pypy3.12-v8.0.1-linux64/bin/pypy3
+
+公式リリースページでは、Python3.12実装はbetaと記載されています。
+PyPy8.0.1の実行時バージョン情報はfinalを返します。この2つを混同せず、
+Python3.12対応部分の上流での位置付けをそのまま残しています。
+
+入手元
+  https://pypy.org/download.html
+  https://downloads.python.org/pypy/pypy3.12-v8.0.1-win64.zip
+  https://downloads.python.org/pypy/pypy3.12-v8.0.1-linux64.tar.gz
+
+公表チェックサム
+  https://pypy.org/checksums
+  Windows ZIP:
+  225aa62deed1a624c86d5ffd03cc34615ff927b095d8508ad82593ee23ddce91
+  Linux tar.gz:
+  aeed27797777296d9c94e53bdfa608804696dbd4ff9f2213003cce064ee46ef8
+
+両アーカイブとも、取得した全バイトのSHA-256が上の公表値と一致しています。
+個々の展開済みファイルも元のアーカイブと照合し、欠落・改変はありません。
+Linuxは3,315個の通常ファイルと5個のシンボリックリンク、Windowsは3,937個の
+通常ファイルを含みます。元の配布物の内容を機能別に削除していません。
+
+ライセンス
+  PyPyのLICENSEと、下位ディレクトリーにあるLICENSE・license.terms・
+  各ファイルの著作権表示をそのまま保持します。PyPy本体のMITライセンスを、
+  標準ライブラリーやその他の同梱物のライセンスへ一括適用しません。
+  https://doc.pypy.org/index.html
+
+Windowsの必要条件
+  公式配布物はVCRUNTIME140.dllとWindowsUCRTを使用します。
+  VCRUNTIME140.dllはPyPyのZIPには含まれていません。Windows側に無い場合は、
+  公式ダウンロードページで案内されているVCランタイムが必要です。
+
+Linuxの必要条件
+  x86_64環境とglibc 2.28以降が必要です。
+  公式ダウンロードページではmanylinux_2_28以降に対応しています。
+
+再配布物を組み立てる際の注意
+  公式アーカイブの全メンバーを使い、Linuxのリンクを保持します。
+  ローカル実行で追加されるキャッシュは元アーカイブの構成に含めません。
+  元アーカイブに含まれるファイルは削除しません。
+  linux_upstream_manifest.json／windows_upstream_manifest.jsonのfile_manifestが、元アーカイブの全メンバーです。
+
+リリースノート
+  https://doc.pypy.org/release-v8.0.1.html
