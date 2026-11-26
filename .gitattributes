@@ -3,4 +3,5 @@
 *.npz binary
 *.pyz binary
 *.png binary
+*.webp binary
 runtime/txt0[0-4].txt binary

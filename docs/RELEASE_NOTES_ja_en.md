@@ -1,5 +1,11 @@
 # Bad Apple!! ERB — リリースノート / Release notes
 
+![Bad Apple!! ERB — 79×24-cell animation excerpt](highlights.webp)
+
+本編8～20秒の抜粋、12秒ループ。79×24セルを等幅フォントで描画したプレビューです。
+
+12-second loop from the 8–20 second excerpt, rendered from the 79×24 grayscale cells with a monospaced font.
+
 ## 日本語
 
 ### 収録内容

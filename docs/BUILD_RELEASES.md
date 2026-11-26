@@ -15,7 +15,7 @@
    python3 bundle_release.py --upstream-dir upstream
    ```
 
-3. `deliverables/` に Windows 版、Linux 版、ソース一式、UTF-8 更新用差分、検証記録、プレビュー、`SHA256SUMS.txt` が生成されます。
+3. `deliverables/` に Windows 版、Linux 版、ソース一式、UTF-8 更新用差分、検証記録、アニメーションWebP、`SHA256SUMS.txt` が生成されます。
 
 梱包処理は、実行用ファイル・既存の再生関数・上流アーカイブのハッシュを検証します。さらに、作成したアーカイブを読み戻し、全ファイルのハッシュと Linux 版のシンボリックリンクを照合します。検証記録は、その記録が対象にしたソースのハッシュを保持しています。
 
@@ -29,7 +29,7 @@ This procedure repackages the verified runtime files in the source tree. Use Pyt
 
 1. Place the official `pypy3.12-v8.0.1-win64.zip` and `pypy3.12-v8.0.1-linux64.tar.gz` archives in `upstream/`. Their download URLs and expected SHA-256 values are recorded in `runtime/third_party/PyPy/bundle_provenance.json`.
 2. Run `python3 bundle_release.py --upstream-dir upstream`.
-3. Collect the runtime bundles, source archive, UTF-8 overlay, verification report, preview, and `SHA256SUMS.txt` from `deliverables/`.
+3. Collect the runtime bundles, source archive, UTF-8 overlay, verification report, animated WebP, and `SHA256SUMS.txt` from `deliverables/`.
 
 The builder checks the recorded runtime hashes, preserved playback functions, and upstream archive hashes. It then reads back the generated archives and verifies every file hash and Linux symbolic link. Historical verification records retain the hashes of the source they cover.
 

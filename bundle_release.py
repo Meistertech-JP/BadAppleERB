@@ -84,6 +84,18 @@ def main() -> None:
     utf8_acceptance = read("validation/console_utf8_verification.json")
     if not all(report.get("pass") is True for report in (acceptance, final_gate, previous_preservation, utf8_acceptance)):
         raise ValueError("Menu acceptance or preservation has not passed")
+    highlights = read("docs/highlights.json")
+    preview_check = highlights["verification"]
+    if not (preview_check["lossless_pixels_match"] and preview_check["sample_timing_matches"]
+            and preview_check["duration_ms"] == highlights["excerpt"]["duration_ms"]):
+        raise ValueError("Animated preview verification has not passed")
+    expected_preview_paths = {"docs/highlights.webp", "docs/highlights-poster.png"}
+    if {record["path"] for record in highlights["files"]} != expected_preview_paths:
+        raise ValueError("Unexpected animated preview inventory")
+    for record in highlights["files"]:
+        current = file_record(ROOT / record["path"])
+        if any(current[key] != record[key] for key in ("bytes", "sha256")):
+            raise ValueError(f"Preview changed after validation: {record['path']}")
     documentation = ("README_ja.md", "README_en.md", "HOW_IT_WORKS_ja.txt", "HOW_IT_WORKS_en.txt")
     for name in documentation:
         path = ROOT / "runtime" / name
@@ -134,6 +146,7 @@ def main() -> None:
         "revision": "github-public-release-1",
         "runtime_revision": "windows-utf8-startup-1",
         "publication_notice": "CREDITS.md records original-work attribution and license scope. Recorded playback and UTF-8 startup checks retain their original evidence and hashes.",
+        "publication_preview": highlights,
         "windows_console_utf8": utf8_acceptance,
         "single_erb_script": "ERB/PLAYER.ERB",
         "default_entry": "SYSTEM_TITLE -> BA_MENU",
@@ -157,7 +170,7 @@ def main() -> None:
         "limits": [
             "Video only; no audio",
             "79x24 logical gray-cell accuracy, not original-resolution or physical-font pixel identity",
-            "Menu preview renders captured terminal cells with a fixed font",
+            "Terminal previews render logical cell values with a fixed font",
         ],
     }
     report_path = out / f"{PREFIX}_verification.json"
@@ -190,8 +203,8 @@ def main() -> None:
     source["VERIFICATION.json"] = report_path
     artifacts.append(make_zip(out / f"{PREFIX}_source.zip", PREFIX + "_source", source))
     artifacts.append(make_utf8_patch(out, files))
-    preview = out / f"{PREFIX}_preview.png"
-    shutil.copyfile(ROOT / final_gate["preview_relative_path"], preview)
+    preview = out / f"{PREFIX}_preview.webp"
+    shutil.copyfile(ROOT / "docs/highlights.webp", preview)
     for path in (report_path, preview):
         artifacts.append({"filename": path.name, **file_record(path)})
     write_json(out / "release_manifest.json", {"artifacts": artifacts})

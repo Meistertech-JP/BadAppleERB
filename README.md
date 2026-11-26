@@ -6,11 +6,15 @@
 
 [日本語の操作説明](runtime/README_ja.md) · [English instructions](runtime/README_en.md) · [仕組みの解説](runtime/HOW_IT_WORKS_ja.txt) · [Release notes](docs/RELEASE_NOTES_ja_en.md)
 
-![Bad Apple!! ERB のメニュー画面。リボンの影絵、リンゴ、魔女帽子と箒の AA と、時間同期・全フレーム・終了の選択肢。](docs/menu-preview.png)
+![Bad Apple!! ERB の本編抜粋。リンゴを放る動きから白黒が反転し、魔女と箒の場面へつながる文字映像。](docs/highlights.webp)
+
+本編8～20秒の抜粋、12秒ループ。79×24セルの明度を、等幅フォントの `#` と空白で描画したプレビューです。
+
+12-second loop from the 8–20 second excerpt, rendering the 79×24 grayscale cells with monospaced `#` characters and spaces.
 
 ## ダウンロードと起動
 
-このリポジトリの **Releases** から、使用する環境に合ったファイルをダウンロードしてください。Windows・Linux の実行用パッケージには PyPy を同梱しています。
+このリポジトリの **[Releases](https://github.com/Meistertech-JP/BadAppleERB/releases)** から、使用する環境に合ったファイルをダウンロードしてください。Windows・Linux の実行用パッケージには PyPy を同梱しています。
 
 | Release asset | 内容 |
 |---|---|
@@ -49,7 +53,7 @@ Windows 版は Windows UCRT と Microsoft x64 Visual C++ ランタイム、Linux
 
 再生後は自動的にメニューへ戻り、繰り返し再生や方式の切り替えができます。空入力や対象外の番号は再入力できます。再生中に終了するには Ctrl+C を押します。
 
-時間同期の目標時間は **219.100秒（3分39.1秒）**です。最終フレームは表示します。終端直前の計算・表示が終端時刻をまたぐ場合は、その処理に必要な分だけ超過することがあります。
+時間同期の目標時間は **219.100秒**（3分39.1秒）です。最終フレームは表示します。終端直前の計算・表示が終端時刻をまたぐ場合は、その処理に必要な分だけ超過することがあります。
 
 全フレームでは、30 fps の予定時刻より早ければ待機し、遅れてもコマを省略しません。そのため、処理性能によって再生時間が長くなります。最初のデータ読み込みとメニューの操作時間は、映像の時間に含みません。
 
@@ -115,7 +119,7 @@ PYEMUERA_PYTHON=python3 sh ./run.sh
 
 Bad Apple!! ERB calculates and plays the silhouette animation as a **79-column × 24-row grayscale image** inside a terminal of at least **80 columns × 25 rows**. Both playback modes share one `PLAYER.ERB` script and the same numerical model. The movie has **6,573 frames at 30 fps**, with a **219.100-second** timeline. There is no audio.
 
-Download the appropriate **PyPy bundle from Releases** and extract the complete archive. On Windows x64, run `BadAppleERB.cmd`. On Linux x86_64, run `sh ./run.sh`. The bundles include the Python interpreter. Use a terminal with 24-bit color, cursor control, UTF-8 support, and a monospaced font with Japanese glyphs.
+Download the appropriate **[PyPy bundle from Releases](https://github.com/Meistertech-JP/BadAppleERB/releases)** and extract the complete archive. On Windows x64, run `BadAppleERB.cmd`. On Linux x86_64, run `sh ./run.sh`. The bundles include the Python interpreter. Use a terminal with 24-bit color, cursor control, UTF-8 support, and a monospaced font with Japanese glyphs.
 
 Type a number and press Enter:
 
